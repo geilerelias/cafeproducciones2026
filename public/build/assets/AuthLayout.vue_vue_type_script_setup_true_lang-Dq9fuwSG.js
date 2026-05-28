@@ -1,0 +1,1 @@
+import{_ as e}from"./AuthSimpleLayout.vue_vue_type_script_setup_true_lang-Dq1NA7w9.js";import{d as o,c as s,o as i,w as r,G as a}from"./app-HbUBGqCi.js";const _=o({__name:"AuthLayout",props:{title:{},description:{}},setup(n){return(t,p)=>(i(),s(e,{title:t.title,description:t.description},{default:r(()=>[a(t.$slots,"default")]),_:3},8,["title","description"]))}});export{_};
