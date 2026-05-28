@@ -23,6 +23,166 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+
+
+Route::get('/test-error', function () {
+    // Lanza un error para probar el manejo de errores
+    abort(403);
+})->name('test.error');
+
+Route::get('/diagnostic-db', function () {
+    try {
+        DB::connection()->getPdo();
+
+        $database = DB::connection()->getDatabaseName();
+        $tablaSessionsExiste = Schema::hasTable('sessions');
+        $registrosEnSessions = $tablaSessionsExiste ? DB::table('sessions')->count() : null;
+
+        $env = [
+            'APP_NAME' => config('app.name'),
+            'APP_ENV' => config('app.env'),
+            'APP_DEBUG' => config('app.debug'),
+            'APP_URL' => config('app.url'),
+        ];
+
+        // Ejecuta migrate:status y captura la salida
+        Artisan::call('migrate:status');
+        $output = Artisan::output();
+
+        // Verifica si hay migraciones pendientes buscando la palabra 'No'
+        $migracionesPendientes = str_contains($output, 'No');
+
+        return Inertia::render('Dashboard/DiagnosticoDB', [
+            'conexion' => 'exitosa',
+            'baseDeDatos' => $database,
+            'tablaSessionsExiste' => $tablaSessionsExiste,
+            'registrosEnSessions' => $registrosEnSessions,
+            'variablesEnv' => $env,
+            'migracionesPendientes' => $migracionesPendientes,
+            'phpVersion' => phpversion(),
+            'laravelVersion' => app()->version(),
+        ]);
+
+    } catch (\Exception $e) {
+        return Inertia::render('Dashboard/DiagnosticDB', [
+            'conexion' => 'fallida',
+            'error' => $e->getMessage(),
+        ]);
+    }
+})->name('diagnostic.db');
+
+Route::middleware(['auth:sanctum', 'can:assign permissions'])->get('/clear-permission-cache', function () {
+    Artisan::call('permission:cache-reset');
+    Artisan::call('optimize:clear');
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Cache de permisos y optimización limpiados correctamente.',
+    ]);
+});
+
+Route::get('/check-role', function (Request $request) {
+    $user = auth()->user();
+
+    $role = $request->query('role');
+    $permission = $request->query('permission');
+
+    $response = [
+        'roles' => $user->getRoleNames(),
+        'permissions' => $user->getAllPermissions()->pluck('name'),
+    ];
+
+    // Si se pasa el parámetro 'role', verifica si el usuario lo tiene
+    if ($role) {
+        $response['checking_role'] = $role;
+        $response['has_role'] = $user->hasRole($role);
+    }
+
+    // Si se pasa el parámetro 'permission', verifica si el usuario lo tiene
+    if ($permission) {
+        $response['checking_permission'] = $permission;
+        $response['has_permission'] = $user->can($permission);
+    }
+
+    return $response;
+});
+
+
+
+Route::get('/clear-cache', function () {
+    try {
+        $exitCode = Artisan::call('cache:clear');
+        $exitCode = Artisan::call('route:clear');
+        $exitCode = Artisan::call('view:clear');
+        $exitCode = Artisan::call('config:cache');
+
+        return 'DONE'; // Return anything
+    } catch (Throwable $th) {
+        // throw $th;
+        return $th; // Return anything
+    }
+});
+
+Route::get('/debug-paths', function () {
+    return [
+        'base_path' => base_path(),
+        'public_path' => public_path(),
+        'storage_path' => storage_path(),
+    ];
+});
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+
+    return 'Enlace de storage creado correctamente';
+});
+
+Route::get('/crear-storage', function () {
+
+    $target = base_path('storage/app/public');
+    $link = base_path('../public_html/storage');
+
+    $info = [];
+
+    $info['target_path'] = $target;
+    $info['link_path'] = $link;
+    $info['target_exists'] = file_exists($target) ? 'SI' : 'NO';
+    $info['link_exists'] = file_exists($link) ? 'SI' : 'NO';
+    $info['is_symlink'] = is_link($link) ? 'SI' : 'NO';
+
+    if (is_link($link)) {
+        $info['symlink_points_to'] = readlink($link);
+    }
+
+    if (file_exists($link)) {
+        $info['mensaje'] = 'El enlace o carpeta ya existe';
+
+        return response()->json($info);
+    }
+
+    try {
+
+        if (symlink($target, $link)) {
+
+            $info['mensaje'] = 'Enlace creado correctamente';
+            $info['symlink_points_to'] = readlink($link);
+
+        } else {
+
+            $info['mensaje'] = 'No se pudo crear el enlace (posible restricción del hosting)';
+
+        }
+
+    } catch (\Throwable $e) {
+
+        $info['error'] = $e->getMessage();
+    }
+
+    return response()->json($info);
+});
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
