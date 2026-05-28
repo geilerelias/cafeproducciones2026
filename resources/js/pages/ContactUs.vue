@@ -88,10 +88,10 @@ const submitContact = () => {
 
 <template>
     <MarketingLayout title="Contacto" description="Contacta a CAFE Producciones en Riohacha para cotizar servicios de logistica, sonido, montaje y produccion de eventos.">
-        <section class="bg-zinc-950 py-20 text-white">
+        <section class="bg-zinc-950 py-14 text-white sm:py-20">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <p class="text-sm font-black uppercase tracking-[0.2em] text-[#f0c8be]">Contacto</p>
-                <h1 class="mt-4 max-w-4xl text-4xl font-black sm:text-5xl">Mantente en contacto con nosotros</h1>
+                <h1 class="mt-4 max-w-4xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">Mantente en contacto con nosotros</h1>
                 <p class="mt-5 max-w-3xl text-lg leading-8 text-zinc-300">
                     Estamos en Riohacha, La Guajira, listos para ayudarte a planificar y producir tu proximo evento.
                 </p>

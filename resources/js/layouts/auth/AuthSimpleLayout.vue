@@ -56,7 +56,7 @@ defineProps<{
                     </div>
                 </section>
 
-                <section class="relative flex min-h-[760px] flex-col justify-center bg-white/90 p-6 text-zinc-950 dark:bg-zinc-950/90 dark:text-white sm:p-10">
+                <section class="relative flex min-h-0 flex-col justify-center bg-white/90 p-5 text-zinc-950 dark:bg-zinc-950/90 dark:text-white sm:min-h-[640px] sm:p-10 lg:min-h-[760px]">
                     <div class="absolute right-6 top-6">
                         <AppearanceTabs />
                     </div>

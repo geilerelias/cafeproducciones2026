@@ -3,7 +3,6 @@ import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
-import DashboardPreferencesPanel from '@/components/DashboardPreferencesPanel.vue';
 import type { BreadcrumbItemType } from '@/types';
 
 interface Props {
@@ -20,8 +19,9 @@ withDefaults(defineProps<Props>(), {
         <AppSidebar />
         <AppContent variant="sidebar">
             <AppSidebarHeader :breadcrumbs="breadcrumbs" />
-            <slot />
+            <div class="min-w-0 flex-1 overflow-x-hidden">
+                <slot />
+            </div>
         </AppContent>
-        <DashboardPreferencesPanel />
     </AppShell>
 </template>

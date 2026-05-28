@@ -20,13 +20,18 @@ class AccessUserController extends Controller
         $this->authorizeAccess($request);
 
         return Inertia::render('Access/Users', [
+            'identificationTypes' => User::identificationTypesForSelect(),
             'users' => User::query()
                 ->with(['roles:id,name', 'permissions:id,name'])
                 ->latest()
-                ->get(['id', 'name', 'email', 'created_at'])
+                ->get(['id', 'name', 'identification_type', 'identification_number', 'phone', 'email', 'created_at'])
                 ->map(fn (User $user) => [
                     'id' => $user->id,
                     'name' => $user->name,
+                    'identification_type' => $user->identification_type,
+                    'identification_number' => $user->identification_number,
+                    'identification_label' => $user->identificationTypeLabel(),
+                    'phone' => $user->phone,
                     'email' => $user->email,
                     'role' => $user->effective_role,
                     'roles' => $user->roles->pluck('name')->values(),
@@ -79,11 +84,13 @@ class AccessUserController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            ...User::identificationRules($request),
+            'phone' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'roles' => ['required', 'array', 'min:1'],
             'roles.*' => ['string', Rule::in(Role::query()->pluck('name')->all())],
-        ]);
+        ], User::identificationMessages());
 
         abort_if(
             ! $actor->isSuperAdmin() && filled(array_intersect($validated['roles'], ['admin', 'superadmin'])),
@@ -98,8 +105,12 @@ class AccessUserController extends Controller
 
         $user = User::create([
             'name' => $validated['name'],
+            'identification_type' => $validated['identification_type'],
+            'identification_number' => $validated['identification_number'],
+            'phone' => $validated['phone'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'email_verified_at' => now(),
         ]);
         $user->syncRoles($validated['roles']);
 

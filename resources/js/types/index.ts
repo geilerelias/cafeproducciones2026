@@ -32,6 +32,10 @@ export interface SharedData {
 export interface User {
     id: number;
     name: string;
+    identification_type?: string | null;
+    identification_number?: string | null;
+    identification_label?: string | null;
+    phone?: string | null;
     email: string;
     role: 'trabajador' | 'cliente' | 'admin' | 'superadmin';
     roles?: string[];

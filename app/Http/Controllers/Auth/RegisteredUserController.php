@@ -21,7 +21,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('auth/Register');
+        return Inertia::render('auth/Register', [
+            'identificationTypes' => User::identificationTypesForSelect(),
+        ]);
     }
 
     /**
@@ -33,12 +35,17 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            ...User::identificationRules($request),
+            'phone' => 'required|string|max:20',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ], User::identificationMessages());
 
         $user = User::create([
             'name' => $request->name,
+            'identification_type' => $request->identification_type,
+            'identification_number' => $request->identification_number,
+            'phone' => $request->phone,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -51,6 +58,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return to_route('dashboard');
+        return to_route('verification.notice');
     }
 }

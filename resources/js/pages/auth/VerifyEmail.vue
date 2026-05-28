@@ -24,8 +24,12 @@ const submit = () => {
             Se envio un nuevo enlace de verificacion al correo que registraste.
         </div>
 
+        <p class="mb-6 text-center text-sm leading-6 text-muted-foreground">
+            Revisa tu bandeja de entrada y la carpeta de spam. Al confirmar el correo podras acceder al panel.
+        </p>
+
         <form @submit.prevent="submit" class="space-y-6 text-center">
-            <Button :disabled="form.processing" variant="secondary">
+            <Button :disabled="form.processing" variant="secondary" class="w-full sm:w-auto">
                 <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                 Reenviar enlace
             </Button>

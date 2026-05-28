@@ -29,7 +29,7 @@ export const brand = {
     phone: '+57 300 436 1660',
     secondaryPhone: '+57 300 328 5091',
     email: 'contacto@cafeproducciones.com',
-    address: 'Carrera 10 # 41 A - 17 Los Almendros, Riohacha, Colombia',
+    address: 'Riohacha, Colombia',
     city: 'Riohacha',
     region: 'La Guajira',
     country: 'Colombia',

@@ -7,12 +7,12 @@ import { assets, brand, features, team } from '@/data/site';
 
 <template>
     <MarketingLayout title="Nosotros" description="Conoce la mision, vision, equipo y experiencia de CAFE Producciones en logistica y produccion de eventos.">
-        <section class="relative overflow-hidden bg-zinc-950 py-24 text-white">
+        <section class="relative overflow-hidden bg-zinc-950 py-16 text-white sm:py-20 lg:py-24">
             <img :src="assets.aboutImage" alt="Equipo CAFE Producciones" class="absolute inset-0 h-full w-full object-cover opacity-35" />
             <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="max-w-3xl">
                     <p class="text-sm font-black uppercase tracking-[0.2em] text-[#f0c8be]">Quienes somos</p>
-                    <h1 class="mt-4 text-4xl font-black sm:text-5xl">Somos un equipo excepcional donde la dedicacion y el talento se unen</h1>
+                    <h1 class="mt-4 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">Somos un equipo excepcional donde la dedicacion y el talento se unen</h1>
                     <p class="mt-5 text-lg leading-8 text-zinc-100">
                         Acompanamos a nuestros clientes en la logistica de eventos locales, regionales y nacionales con un portafolio integral.
                     </p>

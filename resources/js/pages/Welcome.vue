@@ -64,12 +64,12 @@ const portalHighlights = [
             <div class="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-950/80 to-[#7f241f]/25"></div>
 
             <div
-                class="relative mx-auto grid min-h-[90vh] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:py-24"
+                class="relative mx-auto grid min-h-[min(90vh,900px)] max-w-7xl items-center gap-10 px-4 py-12 sm:gap-12 sm:px-6 sm:py-16 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:py-24"
             >
-                <div class="max-w-2xl">
-                    <img :src="assets.logoImage" alt="CAFE Producciones" class="mb-6 h-20 w-20 object-contain" />
-                    <p class="mb-5 text-xs font-black uppercase tracking-[0.28em] text-[#f0c8be]">Eventos sociales, corporativos e institucionales</p>
-                    <h1 class="animate-fade-up text-5xl font-light leading-none tracking-tight sm:text-6xl lg:text-7xl">
+                <div class="max-w-2xl min-w-0">
+                    <img :src="assets.logoImage" alt="CAFE Producciones" class="mb-5 h-16 w-16 object-contain sm:mb-6 sm:h-20 sm:w-20" />
+                    <p class="mb-4 text-[0.65rem] font-black uppercase tracking-[0.2em] text-[#f0c8be] sm:mb-5 sm:text-xs sm:tracking-[0.28em]">Eventos sociales, corporativos e institucionales</p>
+                    <h1 class="animate-fade-up text-4xl font-light leading-tight tracking-tight sm:text-5xl sm:leading-none lg:text-7xl">
                         Haz crecer
                         <span class="block font-black">tu evento</span>
                     </h1>
