@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba Café</title>
+  <link rel="stylesheet" href="/build/assets/app-D5E47Qhl.css">
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f4ede7;
+      background-color: #1c1311;
+      --surface: rgba(20, 14, 12, 0.75);
+      --surface-strong: rgba(23, 17, 15, 0.9);
+      --accent: #c78f4f;
+      --accent-soft: rgba(199, 143, 79, 0.18);
+      --shadow: 0 36px 80px rgba(0,0,0,0.24);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, rgba(199,143,79,.22), transparent 24%),
+                  radial-gradient(circle at bottom right, rgba(245,220,170,.18), transparent 20%),
+                  url('/build/assets/eventooim-BsqSqFrX.jpg') center/cover no-repeat;
+      color: inherit;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(28,19,17,.86), rgba(15, 11, 10, .92));
+      pointer-events: none;
+    }
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+    .card {
+      width: min(100%, 860px);
+      padding: 2.5rem;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: linear-gradient(180deg, rgba(27, 19, 16, 0.95), rgba(20, 14, 12, 0.92));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f8f1e7;
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero-badge span {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f3d8b4, #c78f4f);
+      box-shadow: 0 0 18px rgba(199,143,79,0.45);
+    }
+    .brand-logo {
+      width: 130px;
+      margin: 0 auto 1.8rem;
+      display: block;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,.3));
+    }
+    .title {
+      font-size: clamp(2.75rem, 5vw, 4.5rem);
+      margin: 0;
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+    .accent { color: var(--accent); }
+    .subtitle {
+      margin: 1.4rem auto 2rem;
+      max-width: 710px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(244, 237, 231, 0.9);
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 1.75rem 0 2.25rem;
+    }
+    .grid-item {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 1.1rem 1rem;
+      color: #f1e7dc;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      transition: transform .25s ease, background .25s ease;
+    }
+    .grid-item:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,.12);
+    }
+    .grid-item::before {
+      content: '•';
+      margin-right: 0.6rem;
+      color: var(--accent);
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-width: 200px;
+      padding: 1rem 1.8rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #d9b386, #ac7a41);
+      color: #1a0f08;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 18px 44px rgba(92, 54, 25, .24);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 60px rgba(92, 54, 25, .35);
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      color: rgba(244, 237, 231, .72);
+      font-size: 0.95rem;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @media (max-width: 760px) {
+      .card { padding: 2rem; }
+      .grid { grid-template-columns: 1fr; }
+      .title { font-size: 2.9rem; }
+      .subtitle { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="card">
+      <div class="hero-badge"><span></span>En construcción</div>
+      <img class="brand-logo" src="/images/logo-cafe.png" alt="Logo Café" loading="lazy">
+      <h1 class="title">La nueva experiencia de eventos<br><span class="accent">CaFeProducciones</span> está en camino</h1>
+      <p class="subtitle">Nuestro equipo está armando un sitio moderno y premium para eventos corporativos, lanzamientos y experiencias únicas. Pronto tendrás una propuesta visual y funcional de primer nivel.</p>
+      <div class="grid">
+        <div class="grid-item">Eventos corporativos con identidad de marca</div>
+        <div class="grid-item">Producción audiovisual y logística integral</div>
+        <div class="grid-item">Experiencias exclusivas y memorables</div>
+      </div>
+      <a class="button" href="/">Regresar al inicio</a>
+      <div class="meta">Elegancia en cada detalle · Diseño profesional · Servicios para clientes exigentes</div>
+    </div>
+  </main>
+</body>
+</html>
