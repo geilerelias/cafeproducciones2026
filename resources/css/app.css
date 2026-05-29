@@ -4,7 +4,8 @@
 
 body,
 html {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 input,
@@ -161,8 +162,7 @@ button {
         background:
             radial-gradient(circle at 20% 20%, rgb(164 50 43 / 0.24), transparent 28rem),
             radial-gradient(circle at 80% 10%, rgb(74 47 36 / 0.18), transparent 26rem),
-            radial-gradient(circle at 55% 90%, rgb(107 98 93 / 0.16), transparent 24rem),
-            linear-gradient(135deg, #fafafa, #f4f4f5);
+            radial-gradient(circle at 55% 90%, rgb(107 98 93 / 0.16), transparent 24rem), linear-gradient(135deg, #fafafa, #f4f4f5);
     }
 
     .dark .glass-panel {
@@ -174,8 +174,7 @@ button {
         background:
             radial-gradient(circle at 20% 20%, rgb(164 50 43 / 0.18), transparent 28rem),
             radial-gradient(circle at 80% 10%, rgb(74 47 36 / 0.18), transparent 26rem),
-            radial-gradient(circle at 55% 90%, rgb(107 98 93 / 0.12), transparent 24rem),
-            linear-gradient(135deg, #09090b, #18181b);
+            radial-gradient(circle at 55% 90%, rgb(107 98 93 / 0.12), transparent 24rem), linear-gradient(135deg, #09090b, #18181b);
     }
 
     .dark .marketing-surface .bg-white {

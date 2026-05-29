@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { usePortalLayout } from '@/composables/usePortalLayout';
 import AppHeaderLayout from '@/layouts/app/AppHeaderLayout.vue';
 import AppSidebarLayout from '@/layouts/app/AppSidebarLayout.vue';
-import { usePortalLayout } from '@/composables/usePortalLayout';
 import type { BreadcrumbItemType } from '@/types';
 
 interface Props {

@@ -31,6 +31,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 
+Route::get('/run-migrations', function () {
+
+    abort_unless(
+        request()->get('token') === 'TU_TOKEN_SUPER_SEGURO',
+        403
+    );
+
+    Artisan::call('migrate', [
+        '--force' => true
+    ]);
+
+    return nl2br(Artisan::output());
+
+});
+
 Route::get('/test-error', function () {
     // Lanza un error para probar el manejo de errores
     abort(403);
@@ -112,7 +127,6 @@ Route::get('/check-role', function (Request $request) {
 
     return $response;
 });
-
 
 
 Route::get('/clear-cache', function () {

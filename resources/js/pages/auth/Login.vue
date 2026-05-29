@@ -28,19 +28,27 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Ingresar" description="Accede como cliente, administrador o equipo interno para gestionar procesos, citas y seguimiento operativo.">
+    <AuthBase
+        title="Ingresar"
+        description="Accede como cliente, administrador o equipo interno para gestionar procesos, citas y seguimiento operativo."
+    >
         <Head title="Iniciar sesion" />
 
-        <div v-if="status" class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-700 dark:border-emerald-900/30 dark:bg-emerald-950/30 dark:text-emerald-300">
+        <div
+            v-if="status"
+            class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-700 dark:border-emerald-900/30 dark:bg-emerald-950/30 dark:text-emerald-300"
+        >
             {{ status }}
         </div>
 
-        <div class="mb-6 rounded-md border border-[#e8c8c2] bg-[#fff7f5]/90 p-4 text-sm text-[#3f1714] shadow-sm dark:border-[#b44136]/20 dark:bg-[#b44136]/10 dark:text-[#ffe8e2]">
+        <div
+            class="mb-6 rounded-md border border-[#e8c8c2] bg-[#fff7f5]/90 p-4 text-sm text-[#3f1714] shadow-sm dark:border-[#b44136]/20 dark:bg-[#b44136]/10 dark:text-[#ffe8e2]"
+        >
             <div class="space-y-2">
-            <p>Gestiona solicitudes, asignaciones, tareas y seguimiento desde un solo acceso.</p>
-            <p>Clientes, administradores y trabajadores usan el mismo portal con permisos definidos.</p>
-            <p>Encuestas, trazabilidad y reportes quedan centralizados para operar con orden.</p>
-        </div>
+                <p>Gestiona solicitudes, asignaciones, tareas y seguimiento desde un solo acceso.</p>
+                <p>Clientes, administradores y trabajadores usan el mismo portal con permisos definidos.</p>
+                <p>Encuestas, trazabilidad y reportes quedan centralizados para operar con orden.</p>
+            </div>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -101,7 +109,9 @@ const submit = () => {
                 Aun no tienes acceso?
                 <TextLink :href="route('register')" :tabindex="5">Solicitar registro</TextLink>
             </div>
-            <Link :href="route('home')" class="block text-center text-xs font-bold text-zinc-500 hover:text-zinc-950 dark:hover:text-white">Volver al sitio publico</Link>
+            <Link :href="route('home')" class="block text-center text-xs font-bold text-zinc-500 hover:text-zinc-950 dark:hover:text-white"
+                >Volver al sitio publico</Link
+            >
         </form>
     </AuthBase>
 </template>

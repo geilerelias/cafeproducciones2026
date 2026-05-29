@@ -152,18 +152,30 @@ const onDrop = (stageKey: string) => {
                     </label>
                     <label class="grid gap-2 text-sm font-bold">
                         Asistentes estimados
-                        <input v-model="createForm.guest_count" type="number" min="1" class="rounded-md border border-zinc-300 px-3 py-3 font-normal" />
+                        <input
+                            v-model="createForm.guest_count"
+                            type="number"
+                            min="1"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                        />
                     </label>
                     <label class="grid gap-2 text-sm font-bold md:col-span-2">
                         Descripcion
-                        <textarea v-model="createForm.description" rows="4" class="rounded-md border border-zinc-300 px-3 py-3 font-normal"></textarea>
+                        <textarea
+                            v-model="createForm.description"
+                            rows="4"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                        ></textarea>
                     </label>
                     <label class="grid gap-2 text-sm font-bold md:col-span-2">
                         Presupuesto / notas
                         <input v-model="createForm.budget_notes" type="text" class="rounded-md border border-zinc-300 px-3 py-3 font-normal" />
                     </label>
                     <div class="md:col-span-2">
-                        <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60" :disabled="createForm.processing">
+                        <button
+                            class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+                            :disabled="createForm.processing"
+                        >
                             Enviar solicitud
                         </button>
                     </div>
@@ -214,10 +226,15 @@ const onDrop = (stageKey: string) => {
                 >
                     <p class="text-xs font-bold text-[#a8322b]">{{ item.reference }}</p>
                     <h3 class="mt-1 text-lg font-black">{{ item.title }}</h3>
-                    <p class="mt-3 inline-flex rounded-full bg-[#fff1ee] px-3 py-1 text-xs font-black text-[#a8322b]">{{ stageName(item.stage_key) }}</p>
+                    <p class="mt-3 inline-flex rounded-full bg-[#fff1ee] px-3 py-1 text-xs font-black text-[#a8322b]">
+                        {{ stageName(item.stage_key) }}
+                    </p>
                     <p v-if="item.desired_date" class="mt-3 text-sm text-zinc-600">Fecha deseada: {{ item.desired_date }}</p>
                 </Link>
-                <p v-if="requests.length === 0" class="rounded-md border border-dashed border-zinc-300 bg-white p-8 text-center text-zinc-500 md:col-span-2 xl:col-span-3">
+                <p
+                    v-if="requests.length === 0"
+                    class="rounded-md border border-dashed border-zinc-300 bg-white p-8 text-center text-zinc-500 md:col-span-2 xl:col-span-3"
+                >
                     Aun no tienes solicitudes. Usa el formulario de arriba para crear la primera.
                 </p>
             </section>

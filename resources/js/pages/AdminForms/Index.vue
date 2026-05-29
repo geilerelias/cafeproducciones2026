@@ -58,21 +58,19 @@ const removeField = (index: number) => {
 };
 
 const submit = () => {
-    form
-        .transform((data) => ({
-            ...data,
-            fields: data.fields.map((field) => ({
-                ...field,
-                options: String(field.options || '')
-                    .split(',')
-                    .map((option) => option.trim())
-                    .filter(Boolean),
-            })),
-        }))
-        .post(route('admin.forms.store'), {
-            preserveScroll: true,
-            onSuccess: () => form.reset(),
-        });
+    form.transform((data) => ({
+        ...data,
+        fields: data.fields.map((field) => ({
+            ...field,
+            options: String(field.options || '')
+                .split(',')
+                .map((option) => option.trim())
+                .filter(Boolean),
+        })),
+    })).post(route('admin.forms.store'), {
+        preserveScroll: true,
+        onSuccess: () => form.reset(),
+    });
 };
 
 const copyPublicUrl = async (slug: string) => {
@@ -100,7 +98,11 @@ const copyPublicUrl = async (slug: string) => {
                             <ClipboardList class="h-6 w-6 text-[#a8322b]" />
                             <h2 class="text-xl font-black">Nuevo formulario</h2>
                         </div>
-                        <button type="button" class="inline-flex items-center gap-2 rounded-md border border-zinc-300 px-3 py-2 text-sm font-black" @click="addField">
+                        <button
+                            type="button"
+                            class="inline-flex items-center gap-2 rounded-md border border-zinc-300 px-3 py-2 text-sm font-black"
+                            @click="addField"
+                        >
                             <Plus class="h-4 w-4" />
                             Campo
                         </button>
@@ -109,7 +111,12 @@ const copyPublicUrl = async (slug: string) => {
                     <div class="mt-5 grid gap-4">
                         <input v-model="form.title" placeholder="Titulo del formulario" class="rounded-md border border-zinc-300 px-3 py-3" />
                         <input v-model="form.slug" placeholder="url-compartible-opcional" class="rounded-md border border-zinc-300 px-3 py-3" />
-                        <textarea v-model="form.description" placeholder="Descripcion" rows="3" class="rounded-md border border-zinc-300 px-3 py-3"></textarea>
+                        <textarea
+                            v-model="form.description"
+                            placeholder="Descripcion"
+                            rows="3"
+                            class="rounded-md border border-zinc-300 px-3 py-3"
+                        ></textarea>
                         <div class="grid gap-4 md:grid-cols-2">
                             <select v-model="form.audience" class="rounded-md border border-zinc-300 px-3 py-3">
                                 <option value="trabajador">Trabajador</option>
@@ -125,15 +132,27 @@ const copyPublicUrl = async (slug: string) => {
                                 URL publica compartible
                             </label>
                         </div>
-                        <input v-model="form.submit_label" placeholder="Texto del boton de envio" class="rounded-md border border-zinc-300 px-3 py-3" />
-                        <input v-model="form.success_message" placeholder="Mensaje despues de enviar" class="rounded-md border border-zinc-300 px-3 py-3" />
+                        <input
+                            v-model="form.submit_label"
+                            placeholder="Texto del boton de envio"
+                            class="rounded-md border border-zinc-300 px-3 py-3"
+                        />
+                        <input
+                            v-model="form.success_message"
+                            placeholder="Mensaje despues de enviar"
+                            class="rounded-md border border-zinc-300 px-3 py-3"
+                        />
                     </div>
 
                     <div class="mt-5 grid gap-3">
                         <article v-for="(field, index) in form.fields" :key="index" class="rounded-md border border-zinc-200 p-3">
                             <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_0.8fr_150px_auto]">
                                 <input v-model="field.label" placeholder="Etiqueta" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
-                                <input v-model="field.key" placeholder="clave_sin_espacios" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
+                                <input
+                                    v-model="field.key"
+                                    placeholder="clave_sin_espacios"
+                                    class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                />
                                 <select v-model="field.type" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
                                     <option value="text">Texto</option>
                                     <option value="number">Numero</option>
@@ -141,12 +160,20 @@ const copyPublicUrl = async (slug: string) => {
                                     <option value="select">Lista</option>
                                     <option value="textarea">Parrafo</option>
                                 </select>
-                                <button type="button" class="rounded-md border border-zinc-300 px-3 py-2 sm:col-span-2 lg:col-span-1" @click="removeField(index)">
+                                <button
+                                    type="button"
+                                    class="rounded-md border border-zinc-300 px-3 py-2 sm:col-span-2 lg:col-span-1"
+                                    @click="removeField(index)"
+                                >
                                     <Trash2 class="h-4 w-4" />
                                 </button>
                             </div>
                             <div class="mt-3 grid gap-3 sm:grid-cols-[1fr_auto]">
-                                <input v-model="field.options" placeholder="Opciones para lista, separadas por coma" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
+                                <input
+                                    v-model="field.options"
+                                    placeholder="Opciones para lista, separadas por coma"
+                                    class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                />
                                 <label class="flex items-center gap-2 text-sm font-bold">
                                     <input v-model="field.required" type="checkbox" />
                                     Obligatorio
@@ -155,7 +182,12 @@ const copyPublicUrl = async (slug: string) => {
                         </article>
                     </div>
 
-                    <button class="mt-5 rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60" :disabled="form.processing">Crear formulario</button>
+                    <button
+                        class="mt-5 rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+                        :disabled="form.processing"
+                    >
+                        Crear formulario
+                    </button>
                 </form>
 
                 <div class="rounded-md border border-zinc-200 bg-white p-5 shadow-sm">
@@ -166,16 +198,32 @@ const copyPublicUrl = async (slug: string) => {
                                 <div>
                                     <h3 class="font-black">{{ item.title }}</h3>
                                     <p class="mt-1 text-sm text-zinc-600">{{ item.description || 'Sin descripcion.' }}</p>
-                                    <p class="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[#a8322b]">{{ item.audience }} · {{ item.fields.length }} campos · {{ item.submissions_count }} respuestas</p>
+                                    <p class="mt-2 text-xs font-black uppercase tracking-[0.16em] text-[#a8322b]">
+                                        {{ item.audience }} · {{ item.fields.length }} campos · {{ item.submissions_count }} respuestas
+                                    </p>
                                 </div>
                                 <div class="flex gap-2">
-                                    <Link v-if="item.is_public" :href="route('forms.public.show', item.slug)" class="rounded-md border border-zinc-300 p-2" title="Ver URL publica">
+                                    <Link
+                                        v-if="item.is_public"
+                                        :href="route('forms.public.show', item.slug)"
+                                        class="rounded-md border border-zinc-300 p-2"
+                                        title="Ver URL publica"
+                                    >
                                         <ExternalLink class="h-4 w-4" />
                                     </Link>
-                                    <button v-if="item.is_public" type="button" class="rounded-md border border-zinc-300 p-2" title="Copiar URL publica" @click="copyPublicUrl(item.slug)">
+                                    <button
+                                        v-if="item.is_public"
+                                        type="button"
+                                        class="rounded-md border border-zinc-300 p-2"
+                                        title="Copiar URL publica"
+                                        @click="copyPublicUrl(item.slug)"
+                                    >
                                         <Copy class="h-4 w-4" />
                                     </button>
-                                    <button class="rounded-md border border-zinc-300 p-2" @click="router.delete(route('admin.forms.destroy', item.id), { preserveScroll: true })">
+                                    <button
+                                        class="rounded-md border border-zinc-300 p-2"
+                                        @click="router.delete(route('admin.forms.destroy', item.id), { preserveScroll: true })"
+                                    >
                                         <Trash2 class="h-4 w-4" />
                                     </button>
                                 </div>
@@ -184,7 +232,12 @@ const copyPublicUrl = async (slug: string) => {
                                 {{ route('forms.public.show', item.slug, true) }}
                             </p>
                             <div class="mt-4 flex flex-wrap gap-2">
-                                <span v-for="field in item.fields" :key="field.key" class="rounded-md bg-zinc-100 px-3 py-1 text-xs font-bold text-zinc-700">{{ field.label }}</span>
+                                <span
+                                    v-for="field in item.fields"
+                                    :key="field.key"
+                                    class="rounded-md bg-zinc-100 px-3 py-1 text-xs font-bold text-zinc-700"
+                                    >{{ field.label }}</span
+                                >
                             </div>
                         </article>
                     </div>

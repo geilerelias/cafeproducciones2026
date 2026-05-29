@@ -83,14 +83,24 @@ const editForms = props.news.reduce(
 
             <section class="mt-6 grid gap-6 xl:grid-cols-[0.85fr_1.15fr]">
                 <div class="grid gap-6">
-                    <form class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5" @submit.prevent="importForm.post(route('admin.news.import'), { preserveScroll: true, onSuccess: () => importForm.reset() })">
+                    <form
+                        class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
+                        @submit.prevent="importForm.post(route('admin.news.import'), { preserveScroll: true, onSuccess: () => importForm.reset() })"
+                    >
                         <div class="flex items-center gap-3">
                             <Download class="h-6 w-6 text-[#a8322b]" />
                             <h2 class="text-xl font-black">Importar desde URL social</h2>
                         </div>
                         <div class="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]">
-                            <input v-model="importForm.source_url" type="url" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="https://www.instagram.com/p/..." />
-                            <button class="rounded-md bg-[#a8322b] px-5 py-3 text-sm font-black text-white" :disabled="importForm.processing">Importar</button>
+                            <input
+                                v-model="importForm.source_url"
+                                type="url"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="https://www.instagram.com/p/..."
+                            />
+                            <button class="rounded-md bg-[#a8322b] px-5 py-3 text-sm font-black text-white" :disabled="importForm.processing">
+                                Importar
+                            </button>
                         </div>
                         <p class="mt-3 text-xs font-semibold text-zinc-500">
                             Facebook e Instagram pueden limitar sus metadatos. Si no llegan imagen o texto, completa los campos manualmente.
@@ -104,7 +114,10 @@ const editForms = props.news.reduce(
                         </button>
                     </form>
 
-                    <form class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5" @submit.prevent="createForm.post(route('admin.news.store'), { preserveScroll: true, onSuccess: () => createForm.reset() })">
+                    <form
+                        class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
+                        @submit.prevent="createForm.post(route('admin.news.store'), { preserveScroll: true, onSuccess: () => createForm.reset() })"
+                    >
                         <div class="flex items-center gap-3">
                             <Newspaper class="h-6 w-6 text-[#a8322b]" />
                             <h2 class="text-xl font-black">Nueva noticia</h2>
@@ -114,12 +127,36 @@ const editForms = props.news.reduce(
                             <input v-model="createForm.slug" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="slug-opcional" />
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <input v-model="createForm.category" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="Categoria" />
-                                <input v-model="createForm.platform" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="Instagram, Facebook, Web" />
+                                <input
+                                    v-model="createForm.platform"
+                                    class="rounded-md border border-zinc-300 px-3 py-3"
+                                    placeholder="Instagram, Facebook, Web"
+                                />
                             </div>
-                            <input v-model="createForm.source_url" type="url" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="URL fuente" />
-                            <input v-model="createForm.image_url" type="url" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="URL de imagen para portada y redes" />
-                            <textarea v-model="createForm.excerpt" rows="3" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="Resumen para tarjetas y SEO"></textarea>
-                            <textarea v-model="createForm.body" rows="6" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="Contenido"></textarea>
+                            <input
+                                v-model="createForm.source_url"
+                                type="url"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="URL fuente"
+                            />
+                            <input
+                                v-model="createForm.image_url"
+                                type="url"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="URL de imagen para portada y redes"
+                            />
+                            <textarea
+                                v-model="createForm.excerpt"
+                                rows="3"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="Resumen para tarjetas y SEO"
+                            ></textarea>
+                            <textarea
+                                v-model="createForm.body"
+                                rows="6"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="Contenido"
+                            ></textarea>
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <select v-model="createForm.status" class="rounded-md border border-zinc-300 px-3 py-3">
                                     <option value="draft">Borrador</option>
@@ -131,23 +168,45 @@ const editForms = props.news.reduce(
                                 <input v-model="createForm.is_featured" type="checkbox" />
                                 Destacada
                             </label>
-                            <input v-model="createForm.meta_title" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="Meta titulo opcional" />
-                            <textarea v-model="createForm.meta_description" rows="2" class="rounded-md border border-zinc-300 px-3 py-3" placeholder="Meta descripcion opcional"></textarea>
-                            <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="createForm.processing">Crear noticia</button>
+                            <input
+                                v-model="createForm.meta_title"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="Meta titulo opcional"
+                            />
+                            <textarea
+                                v-model="createForm.meta_description"
+                                rows="2"
+                                class="rounded-md border border-zinc-300 px-3 py-3"
+                                placeholder="Meta descripcion opcional"
+                            ></textarea>
+                            <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="createForm.processing">
+                                Crear noticia
+                            </button>
                         </div>
                     </form>
                 </div>
 
                 <div class="grid gap-4">
                     <article v-for="item in news" :key="item.id" class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm">
-                        <form class="grid gap-4" @submit.prevent="editForms[item.id].patch(route('admin.news.update', item.id), { preserveScroll: true })">
+                        <form
+                            class="grid gap-4"
+                            @submit.prevent="editForms[item.id].patch(route('admin.news.update', item.id), { preserveScroll: true })"
+                        >
                             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                 <div>
                                     <p class="text-xs font-black uppercase tracking-[0.18em] text-[#a8322b]">{{ item.status }}</p>
                                     <h2 class="mt-1 text-lg font-black">{{ item.title }}</h2>
-                                    <Link :href="route('news.show', item.slug)" class="mt-1 inline-flex text-xs font-bold text-zinc-500 hover:text-[#a8322b]">Ver publica</Link>
+                                    <Link
+                                        :href="route('news.show', item.slug)"
+                                        class="mt-1 inline-flex text-xs font-bold text-zinc-500 hover:text-[#a8322b]"
+                                        >Ver publica</Link
+                                    >
                                 </div>
-                                <button type="button" class="rounded-md border border-zinc-300 p-2" @click="router.delete(route('admin.news.destroy', item.id), { preserveScroll: true })">
+                                <button
+                                    type="button"
+                                    class="rounded-md border border-zinc-300 p-2"
+                                    @click="router.delete(route('admin.news.destroy', item.id), { preserveScroll: true })"
+                                >
                                     <Trash2 class="h-4 w-4" />
                                 </button>
                             </div>
@@ -157,24 +216,55 @@ const editForms = props.news.reduce(
                                 <input v-model="editForms[item.id].category" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
                                 <input v-model="editForms[item.id].platform" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
                             </div>
-                            <input v-model="editForms[item.id].source_url" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" placeholder="URL fuente" />
-                            <input v-model="editForms[item.id].image_url" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" placeholder="URL imagen" />
-                            <textarea v-model="editForms[item.id].excerpt" rows="2" class="rounded-md border border-zinc-300 px-3 py-2 text-sm"></textarea>
-                            <textarea v-model="editForms[item.id].body" rows="4" class="rounded-md border border-zinc-300 px-3 py-2 text-sm"></textarea>
+                            <input
+                                v-model="editForms[item.id].source_url"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                placeholder="URL fuente"
+                            />
+                            <input
+                                v-model="editForms[item.id].image_url"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                placeholder="URL imagen"
+                            />
+                            <textarea
+                                v-model="editForms[item.id].excerpt"
+                                rows="2"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                            ></textarea>
+                            <textarea
+                                v-model="editForms[item.id].body"
+                                rows="4"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                            ></textarea>
                             <div class="grid gap-3 sm:grid-cols-2">
                                 <select v-model="editForms[item.id].status" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
                                     <option value="draft">Borrador</option>
                                     <option value="published">Publicado</option>
                                 </select>
-                                <input v-model="editForms[item.id].published_at" type="datetime-local" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
+                                <input
+                                    v-model="editForms[item.id].published_at"
+                                    type="datetime-local"
+                                    class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                />
                             </div>
                             <label class="flex items-center gap-2 text-sm font-bold">
                                 <input v-model="editForms[item.id].is_featured" type="checkbox" />
                                 Destacada
                             </label>
-                            <input v-model="editForms[item.id].meta_title" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" placeholder="Meta titulo" />
-                            <textarea v-model="editForms[item.id].meta_description" rows="2" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" placeholder="Meta descripcion"></textarea>
-                            <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white" :disabled="editForms[item.id].processing">Guardar</button>
+                            <input
+                                v-model="editForms[item.id].meta_title"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                placeholder="Meta titulo"
+                            />
+                            <textarea
+                                v-model="editForms[item.id].meta_description"
+                                rows="2"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                placeholder="Meta descripcion"
+                            ></textarea>
+                            <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white" :disabled="editForms[item.id].processing">
+                                Guardar
+                            </button>
                         </form>
                     </article>
                 </div>

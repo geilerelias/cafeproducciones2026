@@ -1,9 +1,9 @@
 import '../css/app.css';
 
+import UserFeedbackHost from '@/components/UserFeedbackHost.vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
-import UserFeedbackHost from '@/components/UserFeedbackHost.vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { initializeTheme } from './composables/useAppearance';

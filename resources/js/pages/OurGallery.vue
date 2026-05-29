@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import MarketingLayout from '@/layouts/MarketingLayout.vue';
 import { brand, galleryImages, services } from '@/data/site';
+import MarketingLayout from '@/layouts/MarketingLayout.vue';
 </script>
 
 <template>
-    <MarketingLayout title="Galeria" description="Galeria de imagenes de eventos, montajes, sonido, pantallas, escenarios y producciones realizadas por CAFE Producciones.">
+    <MarketingLayout
+        title="Galeria"
+        description="Galeria de imagenes de eventos, montajes, sonido, pantallas, escenarios y producciones realizadas por CAFE Producciones."
+    >
         <section class="bg-zinc-950 py-20 text-white">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <p class="text-sm font-black uppercase tracking-[0.2em] text-[#f0c8be]">Galeria</p>
@@ -41,7 +44,14 @@ import { brand, galleryImages, services } from '@/data/site';
                             <span class="text-sm font-bold text-zinc-500">{{ service.images.length }} imagenes</span>
                         </div>
                         <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
-                            <img v-for="image in service.images" :key="image" :src="image" :alt="service.title" loading="lazy" class="aspect-square rounded-md object-cover shadow-sm" />
+                            <img
+                                v-for="image in service.images"
+                                :key="image"
+                                :src="image"
+                                :alt="service.title"
+                                loading="lazy"
+                                class="aspect-square rounded-md object-cover shadow-sm"
+                            />
                         </div>
                     </article>
                 </div>
@@ -54,7 +64,9 @@ import { brand, galleryImages, services } from '@/data/site';
                     <h2 class="text-2xl font-black">Quieres una produccion como estas?</h2>
                     <p class="mt-2 text-zinc-300">Hablemos por WhatsApp y revisemos tu evento.</p>
                 </div>
-                <a :href="brand.whatsapp" target="_blank" rel="noopener" class="rounded-md bg-[#a8322b] px-5 py-3 text-sm font-black text-white">Cotizar evento</a>
+                <a :href="brand.whatsapp" target="_blank" rel="noopener" class="rounded-md bg-[#a8322b] px-5 py-3 text-sm font-black text-white"
+                    >Cotizar evento</a
+                >
             </div>
         </section>
     </MarketingLayout>

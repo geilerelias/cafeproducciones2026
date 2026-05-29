@@ -111,7 +111,9 @@ onBeforeUnmount(() => {
     </Head>
 
     <div class="marketing-shell min-h-screen bg-white text-zinc-950 antialiased dark:bg-zinc-950 dark:text-zinc-50">
-        <header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 shadow-[0_12px_40px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/85">
+        <header
+            class="sticky top-0 z-50 border-b border-black/5 bg-white/90 shadow-[0_12px_40px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/85"
+        >
             <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
                 <Link :href="route('home')" class="group flex min-w-0 items-center gap-2.5 sm:gap-3">
                     <span
@@ -230,7 +232,9 @@ onBeforeUnmount(() => {
             <div class="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-14 md:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_1fr] lg:px-8">
                 <div class="md:col-span-2 lg:col-span-1">
                     <div class="mb-5 flex items-center gap-3">
-                        <span class="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-black/5 ring-1 ring-black/5 dark:bg-white/10 dark:ring-white/10 sm:h-16 sm:w-16">
+                        <span
+                            class="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-black/5 ring-1 ring-black/5 dark:bg-white/10 dark:ring-white/10 sm:h-16 sm:w-16"
+                        >
                             <img :src="assets.logoTransparent" alt="CAFE Producciones" class="h-10 w-10 object-contain sm:h-12 sm:w-12" />
                         </span>
                         <div class="min-w-0">

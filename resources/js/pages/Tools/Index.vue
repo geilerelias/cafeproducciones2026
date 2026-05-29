@@ -28,7 +28,10 @@ const form = useForm({ name: '', code: '', notes: '' });
             </section>
 
             <section class="mt-6 grid gap-6 xl:grid-cols-[0.65fr_1.35fr]">
-                <form class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5" @submit.prevent="form.post(route('tools.store'), { preserveScroll: true, onSuccess: () => form.reset() })">
+                <form
+                    class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
+                    @submit.prevent="form.post(route('tools.store'), { preserveScroll: true, onSuccess: () => form.reset() })"
+                >
                     <div class="flex items-center gap-3">
                         <Wrench class="h-6 w-6 text-[#a8322b]" />
                         <h2 class="text-xl font-black">Nueva herramienta</h2>
@@ -52,7 +55,11 @@ const form = useForm({ name: '', code: '', notes: '' });
                             <span class="rounded-md bg-zinc-100 px-3 py-1 text-xs font-black text-zinc-700">{{ tool.status }}</span>
                         </div>
                         <div class="mt-4 flex flex-wrap gap-2">
-                            <span v-for="assignment in tool.assignments" :key="assignment.id" class="rounded-md bg-[#fff1ee] px-3 py-1 text-xs font-bold text-[#7f241f]">
+                            <span
+                                v-for="assignment in tool.assignments"
+                                :key="assignment.id"
+                                class="rounded-md bg-[#fff1ee] px-3 py-1 text-xs font-bold text-[#7f241f]"
+                            >
                                 {{ assignment.user?.name }} · {{ assignment.event?.name || 'sin evento' }} · {{ assignment.status }}
                             </span>
                         </div>

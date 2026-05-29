@@ -54,16 +54,38 @@ const submit = () => {
                 <div class="grid gap-4">
                     <label v-for="field in formDefinition.fields" :key="field.key" class="grid gap-2 text-sm font-bold">
                         {{ field.label }}
-                        <textarea v-if="field.type === 'textarea'" v-model="responseForm.answers[field.key]" rows="5" class="rounded-md border border-zinc-300 px-3 py-3 font-normal outline-none focus:border-[#a8322b]" :required="field.required"></textarea>
-                        <select v-else-if="field.type === 'select'" v-model="responseForm.answers[field.key]" class="rounded-md border border-zinc-300 px-3 py-3 font-normal outline-none focus:border-[#a8322b]" :required="field.required">
+                        <textarea
+                            v-if="field.type === 'textarea'"
+                            v-model="responseForm.answers[field.key]"
+                            rows="5"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal outline-none focus:border-[#a8322b]"
+                            :required="field.required"
+                        ></textarea>
+                        <select
+                            v-else-if="field.type === 'select'"
+                            v-model="responseForm.answers[field.key]"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal outline-none focus:border-[#a8322b]"
+                            :required="field.required"
+                        >
                             <option value="">Selecciona una opcion</option>
                             <option v-for="option in field.options" :key="option" :value="option">{{ option }}</option>
                         </select>
-                        <input v-else v-model="responseForm.answers[field.key]" :type="field.type" class="rounded-md border border-zinc-300 px-3 py-3 font-normal outline-none focus:border-[#a8322b]" :required="field.required" />
-                        <span v-if="responseForm.errors[`answers.${field.key}`]" class="text-xs font-bold text-red-700">{{ responseForm.errors[`answers.${field.key}`] }}</span>
+                        <input
+                            v-else
+                            v-model="responseForm.answers[field.key]"
+                            :type="field.type"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal outline-none focus:border-[#a8322b]"
+                            :required="field.required"
+                        />
+                        <span v-if="responseForm.errors[`answers.${field.key}`]" class="text-xs font-bold text-red-700">{{
+                            responseForm.errors[`answers.${field.key}`]
+                        }}</span>
                     </label>
 
-                    <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60" :disabled="responseForm.processing">
+                    <button
+                        class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+                        :disabled="responseForm.processing"
+                    >
                         {{ responseForm.processing ? 'Enviando...' : formDefinition.submit_label }}
                     </button>
                 </div>

@@ -33,8 +33,7 @@ const auth = computed(() => page.props.auth);
 const { getInitials } = useInitials();
 const { mainNavItems, footerNavItems, isActive } = usePortalNavigation();
 
-const activeItemStyles = (href: string) =>
-    isActive(href) ? 'bg-[#fff1ee] text-[#7f241f] dark:bg-[#b44136]/20 dark:text-[#f0c8be]' : '';
+const activeItemStyles = (href: string) => (isActive(href) ? 'bg-[#fff1ee] text-[#7f241f] dark:bg-[#b44136]/20 dark:text-[#f0c8be]' : '');
 </script>
 
 <template>
@@ -90,7 +89,11 @@ const activeItemStyles = (href: string) =>
                         <NavigationMenuItem v-for="item in mainNavItems" :key="item.title">
                             <Link :href="item.href">
                                 <NavigationMenuLink
-                                    :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3 text-sm font-semibold']"
+                                    :class="[
+                                        navigationMenuTriggerStyle(),
+                                        activeItemStyles(item.href),
+                                        'h-9 cursor-pointer px-3 text-sm font-semibold',
+                                    ]"
                                 >
                                     <component :is="item.icon" class="mr-2 h-4 w-4" />
                                     {{ item.title }}
@@ -106,7 +109,7 @@ const activeItemStyles = (href: string) =>
                     v-for="item in footerNavItems"
                     :key="item.title"
                     :href="item.href"
-                    class="hidden rounded-md px-3 py-2 text-sm font-semibold text-zinc-600 transition hover:text-zinc-950 md:inline-flex dark:text-zinc-300 dark:hover:text-white"
+                    class="hidden rounded-md px-3 py-2 text-sm font-semibold text-zinc-600 transition hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white md:inline-flex"
                 >
                     {{ item.title }}
                 </Link>

@@ -31,7 +31,9 @@ const menuAlignmentOptions = [
             </Button>
         </DialogTrigger>
 
-        <DialogContent class="max-h-[90vh] w-[min(92vw,42rem)] overflow-y-auto border-zinc-200 bg-white text-zinc-950 dark:border-white/10 dark:bg-zinc-950 dark:text-white">
+        <DialogContent
+            class="max-h-[90vh] w-[min(92vw,42rem)] overflow-y-auto border-zinc-200 bg-white text-zinc-950 dark:border-white/10 dark:bg-zinc-950 dark:text-white"
+        >
             <DialogHeader class="space-y-2">
                 <DialogTitle class="flex items-center gap-2 text-xl font-black">
                     <Menu class="h-5 w-5 text-[#a8322b]" />
@@ -62,7 +64,11 @@ const menuAlignmentOptions = [
                             :key="option.value"
                             type="button"
                             class="rounded-md border px-3 py-2 text-sm font-bold transition"
-                            :class="menuPlacement === option.value ? 'brand-accent-bg border-transparent shadow-md' : 'border-zinc-200 bg-white text-zinc-700 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200'"
+                            :class="
+                                menuPlacement === option.value
+                                    ? 'brand-accent-bg border-transparent shadow-md'
+                                    : 'border-zinc-200 bg-white text-zinc-700 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200'
+                            "
                             @click="updateMenuPlacement(option.value)"
                         >
                             {{ option.label }}
@@ -74,7 +80,11 @@ const menuAlignmentOptions = [
                             :key="option.value"
                             type="button"
                             class="rounded-md border px-3 py-2 text-xs font-black uppercase tracking-wide transition"
-                            :class="menuAlignment === option.value ? 'brand-accent-soft-bg border-transparent text-zinc-950' : 'border-zinc-200 bg-white text-zinc-700 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200'"
+                            :class="
+                                menuAlignment === option.value
+                                    ? 'brand-accent-soft-bg border-transparent text-zinc-950'
+                                    : 'border-zinc-200 bg-white text-zinc-700 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200'
+                            "
                             @click="updateMenuAlignment(option.value)"
                         >
                             {{ option.label }}
@@ -90,7 +100,9 @@ const menuAlignmentOptions = [
                             :key="key"
                             type="button"
                             class="rounded-md border p-3 text-left transition"
-                            :class="accentTone === key ? 'border-transparent shadow-lg' : 'border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950'"
+                            :class="
+                                accentTone === key ? 'border-transparent shadow-lg' : 'border-zinc-200 bg-white dark:border-white/10 dark:bg-zinc-950'
+                            "
                             :style="accentTone === key ? { backgroundColor: preset.base, color: preset.foreground } : undefined"
                             @click="updateAccentTone(key)"
                         >

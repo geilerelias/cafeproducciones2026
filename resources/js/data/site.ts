@@ -1,11 +1,11 @@
-import heroImage from '../../images/bg/Inicio.jpg';
 import aboutImage from '../../images/bg/00.jpg';
-import contactImage from '../../images/bg/bg-contact-2.jpg';
 import projectImage from '../../images/bg/12.jpg';
-import logoImage from '../../images/logo/logo.png';
+import contactImage from '../../images/bg/bg-contact-2.jpg';
+import heroImage from '../../images/bg/Inicio.jpg';
 import logoTransparent from '../../images/logo/logo-transparent.png';
-import teamPhoto from '../../images/team/equipodetrabajo.jpg';
+import logoImage from '../../images/logo/logo.png';
 import carmenPhoto from '../../images/team/carmenbarros.png';
+import teamPhoto from '../../images/team/equipodetrabajo.jpg';
 import ferneyPhoto from '../../images/team/ferneybarros.png';
 import geilerPhoto from '../../images/team/geilerelias.png';
 import gennerPhoto from '../../images/team/gennereliasradillosarmiento.png';
@@ -109,44 +109,37 @@ export const services = [
     {
         slug: 'montaje',
         title: 'Montaje de todo tipo de evento',
-        description:
-            'Estructuras, tarimas, escenarios y soluciones de montaje optimizadas para tiempos, seguridad y costos.',
+        description: 'Estructuras, tarimas, escenarios y soluciones de montaje optimizadas para tiempos, seguridad y costos.',
     },
     {
         slug: 'pirotecnia',
         title: 'Pirotecnia de escenarios y aerea',
-        description:
-            'Espectaculos especiales para celebraciones, actos y momentos de alto impacto, coordinados segun lugar, duracion y presupuesto.',
+        description: 'Espectaculos especiales para celebraciones, actos y momentos de alto impacto, coordinados segun lugar, duracion y presupuesto.',
     },
     {
         slug: 'vallas',
         title: 'Vallas de contencion de publico',
-        description:
-            'Delimitacion de espacios para eventos temporales, espectaculos, desfiles y procesiones en espacios abiertos o cerrados.',
+        description: 'Delimitacion de espacios para eventos temporales, espectaculos, desfiles y procesiones en espacios abiertos o cerrados.',
     },
     {
         slug: 'personal',
         title: 'Personal logistico',
-        description:
-            'Equipo humano para soporte tecnico, atencion, coordinacion de flujos, transporte y operacion general del evento.',
+        description: 'Equipo humano para soporte tecnico, atencion, coordinacion de flujos, transporte y operacion general del evento.',
     },
     {
         slug: 'moviliarios',
         title: 'Carpas, sillas, mesas y equipos',
-        description:
-            'Mobiliario, toldos, carpas, pisos, stands, computadores e impresoras para actividades empresariales y sociales.',
+        description: 'Mobiliario, toldos, carpas, pisos, stands, computadores e impresoras para actividades empresariales y sociales.',
     },
     {
         slug: 'filmacion',
         title: 'Filmacion general y entrevistas',
-        description:
-            'Produccion audiovisual para registro, promocion, entrevistas, presentaciones y piezas de comunicacion.',
+        description: 'Produccion audiovisual para registro, promocion, entrevistas, presentaciones y piezas de comunicacion.',
     },
     {
         slug: 'refrigerios',
         title: 'Refrigerios',
-        description:
-            'Brunch y refrigerios para cursos, seminarios, reuniones empresariales y actividades institucionales.',
+        description: 'Brunch y refrigerios para cursos, seminarios, reuniones empresariales y actividades institucionales.',
     },
     {
         slug: 'pantallas',
@@ -157,20 +150,17 @@ export const services = [
     {
         slug: 'iluminacion',
         title: 'Iluminacion',
-        description:
-            'Diseno de ambientes con luces para escenarios, salones, fiestas, conciertos, stands y eventos corporativos.',
+        description: 'Diseno de ambientes con luces para escenarios, salones, fiestas, conciertos, stands y eventos corporativos.',
     },
     {
         slug: 'piso-led',
         title: 'Piso led',
-        description:
-            'Pistas y pisos LED para escenarios, pasarelas, fiestas, exposiciones y experiencias visuales interactivas.',
+        description: 'Pistas y pisos LED para escenarios, pasarelas, fiestas, exposiciones y experiencias visuales interactivas.',
     },
     {
         slug: 'escenografia',
         title: 'Escenografias',
-        description:
-            'Conceptualizacion, diseno y ejecucion de escenarios integrales para eventos de alto impacto.',
+        description: 'Conceptualizacion, diseno y ejecucion de escenarios integrales para eventos de alto impacto.',
     },
 ].map((service) => {
     const images = Object.entries(serviceImageModules)

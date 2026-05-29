@@ -1,6 +1,19 @@
 import type { NavItem, SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
-import { BriefcaseBusiness, CalendarDays, ClipboardList, FileText, Home, KeyRound, LayoutGrid, Newspaper, PartyPopper, ShieldCheck, Users, Wrench } from 'lucide-vue-next';
+import {
+    BriefcaseBusiness,
+    CalendarDays,
+    ClipboardList,
+    FileText,
+    Home,
+    KeyRound,
+    LayoutGrid,
+    Newspaper,
+    PartyPopper,
+    ShieldCheck,
+    Users,
+    Wrench,
+} from 'lucide-vue-next';
 import { computed } from 'vue';
 
 export function usePortalNavigation() {
@@ -32,7 +45,10 @@ export function usePortalNavigation() {
                   },
               ]
             : []),
-        ...(can('event.requests.create') || can('event.requests.view-own') || can('event.requests.manage') || can('event.requests.tasks.view-assigned')
+        ...(can('event.requests.create') ||
+        can('event.requests.view-own') ||
+        can('event.requests.manage') ||
+        can('event.requests.tasks.view-assigned')
             ? [
                   {
                       title: can('event.requests.manage')

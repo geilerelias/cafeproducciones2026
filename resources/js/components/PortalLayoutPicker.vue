@@ -61,7 +61,9 @@ const selectLayout = (value: PortalLayout) => {
             <div class="flex items-start gap-3">
                 <span
                     class="grid h-10 w-10 shrink-0 place-items-center rounded-md"
-                    :class="portalLayout === option.value ? 'bg-[#a8322b] text-white' : 'bg-zinc-100 text-zinc-600 dark:bg-white/10 dark:text-zinc-300'"
+                    :class="
+                        portalLayout === option.value ? 'bg-[#a8322b] text-white' : 'bg-zinc-100 text-zinc-600 dark:bg-white/10 dark:text-zinc-300'
+                    "
                 >
                     <component :is="option.icon" class="h-5 w-5" />
                 </span>

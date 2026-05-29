@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -44,8 +43,7 @@ const fortifyRequest = async (url: string, options: RequestInit = {}) => {
 
     if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        const validationMessage =
-            (data.errors && (Object.values(data.errors).flat()[0] as string | undefined)) || data.message;
+        const validationMessage = (data.errors && (Object.values(data.errors).flat()[0] as string | undefined)) || data.message;
         throw new Error(validationMessage ?? 'No se pudo completar la operacion.');
     }
 
@@ -188,7 +186,7 @@ const showSetupPanel = computed(() => !props.twoFactorEnabled && step.value !== 
 
                     <div v-if="showEnabledPanel" class="mt-6 space-y-4">
                         <p class="text-sm text-zinc-600">Tu cuenta esta protegida con 2FA.</p>
-                        <div class="grid gap-2 max-w-sm">
+                        <div class="grid max-w-sm gap-2">
                             <Label for="disable-password">Contrasena para desactivar</Label>
                             <Input id="disable-password" v-model="password" type="password" autocomplete="current-password" />
                         </div>
@@ -200,7 +198,7 @@ const showSetupPanel = computed(() => !props.twoFactorEnabled && step.value !== 
 
                     <div v-else-if="showSetupPanel" class="mt-6 space-y-4">
                         <div v-if="step === 'idle'" class="space-y-4">
-                            <div class="grid gap-2 max-w-sm">
+                            <div class="grid max-w-sm gap-2">
                                 <Label for="setup-password">Confirma tu contrasena</Label>
                                 <Input id="setup-password" v-model="password" type="password" autocomplete="current-password" />
                             </div>
@@ -211,9 +209,11 @@ const showSetupPanel = computed(() => !props.twoFactorEnabled && step.value !== 
                         </div>
 
                         <div v-if="step === 'qr'" class="space-y-4">
-                            <p class="text-sm text-zinc-600">Escanea este codigo QR con tu aplicacion de autenticacion y luego ingresa el codigo de 6 digitos.</p>
+                            <p class="text-sm text-zinc-600">
+                                Escanea este codigo QR con tu aplicacion de autenticacion y luego ingresa el codigo de 6 digitos.
+                            </p>
                             <div class="inline-block rounded-md border border-zinc-200 bg-white p-4" v-html="qrSvg"></div>
-                            <div class="grid gap-2 max-w-xs">
+                            <div class="grid max-w-xs gap-2">
                                 <Label for="confirmation-code">Codigo de verificacion</Label>
                                 <Input
                                     id="confirmation-code"
@@ -232,7 +232,9 @@ const showSetupPanel = computed(() => !props.twoFactorEnabled && step.value !== 
                     </div>
 
                     <div v-if="step === 'recovery' && recoveryCodes.length" class="mt-6 space-y-4">
-                        <p class="text-sm font-semibold text-zinc-800">Guarda estos codigos de recuperacion en un lugar seguro. Cada uno solo se puede usar una vez.</p>
+                        <p class="text-sm font-semibold text-zinc-800">
+                            Guarda estos codigos de recuperacion en un lugar seguro. Cada uno solo se puede usar una vez.
+                        </p>
                         <ul class="grid gap-2 rounded-md bg-zinc-50 p-4 font-mono text-sm dark:bg-white/5 sm:grid-cols-2">
                             <li v-for="code in recoveryCodes" :key="code">{{ code }}</li>
                         </ul>

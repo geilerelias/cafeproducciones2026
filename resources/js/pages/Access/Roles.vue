@@ -54,7 +54,10 @@ const isProtectedRole = (role: RoleItem) => !props.canManageProtectedRoles && ['
             </section>
 
             <section class="mt-6 grid gap-6 xl:grid-cols-[0.7fr_1.3fr]">
-                <form class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5" @submit.prevent="createForm.post(route('access.roles.store'), { preserveScroll: true, onSuccess: () => createForm.reset() })">
+                <form
+                    class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
+                    @submit.prevent="createForm.post(route('access.roles.store'), { preserveScroll: true, onSuccess: () => createForm.reset() })"
+                >
                     <div class="flex items-center gap-3">
                         <ShieldCheck class="h-6 w-6 text-[#a8322b]" />
                         <h2 class="text-xl font-black">Nuevo rol</h2>
@@ -66,7 +69,11 @@ const isProtectedRole = (role: RoleItem) => !props.canManageProtectedRoles && ['
                             :key="permission"
                             type="button"
                             class="rounded-md border px-3 py-2 text-xs font-black"
-                            :class="createForm.permissions.includes(permission) ? 'border-[#a8322b] bg-[#fff1ee] text-[#7f241f]' : 'border-zinc-200 bg-white text-zinc-600'"
+                            :class="
+                                createForm.permissions.includes(permission)
+                                    ? 'border-[#a8322b] bg-[#fff1ee] text-[#7f241f]'
+                                    : 'border-zinc-200 bg-white text-zinc-600'
+                            "
                             @click="createForm.permissions = toggle(createForm.permissions, permission)"
                         >
                             {{ permission }}
@@ -76,17 +83,38 @@ const isProtectedRole = (role: RoleItem) => !props.canManageProtectedRoles && ['
                 </form>
 
                 <div class="grid gap-4">
-                    <article v-for="role in roles" :key="role.id" class="rounded-md border border-zinc-200 bg-white p-5 shadow-sm" :class="isProtectedRole(role) ? 'opacity-75' : ''">
+                    <article
+                        v-for="role in roles"
+                        :key="role.id"
+                        class="rounded-md border border-zinc-200 bg-white p-5 shadow-sm"
+                        :class="isProtectedRole(role) ? 'opacity-75' : ''"
+                    >
                         <form @submit.prevent="roleForms[role.id].patch(route('access.roles.update', role.id), { preserveScroll: true })">
                             <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                                 <div>
-                                    <input v-model="roleForms[role.id].name" class="w-full min-w-0 rounded-md border border-zinc-300 px-3 py-2 font-black" :disabled="['trabajador', 'cliente', 'admin', 'superadmin'].includes(role.name)" />
+                                    <input
+                                        v-model="roleForms[role.id].name"
+                                        class="w-full min-w-0 rounded-md border border-zinc-300 px-3 py-2 font-black"
+                                        :disabled="['trabajador', 'cliente', 'admin', 'superadmin'].includes(role.name)"
+                                    />
                                     <p class="mt-2 text-sm font-semibold text-zinc-500">{{ role.users_count }} usuarios asignados</p>
-                                    <p v-if="isProtectedRole(role)" class="mt-2 text-xs font-bold text-[#a8322b]">Protegido: solo superadmin puede cambiar este rol.</p>
+                                    <p v-if="isProtectedRole(role)" class="mt-2 text-xs font-bold text-[#a8322b]">
+                                        Protegido: solo superadmin puede cambiar este rol.
+                                    </p>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40" :disabled="isProtectedRole(role)">Guardar</button>
-                                    <button v-if="!['trabajador', 'cliente', 'admin', 'superadmin'].includes(role.name)" type="button" class="rounded-md border border-zinc-300 p-2" @click="router.delete(route('access.roles.destroy', role.id), { preserveScroll: true })">
+                                    <button
+                                        class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40"
+                                        :disabled="isProtectedRole(role)"
+                                    >
+                                        Guardar
+                                    </button>
+                                    <button
+                                        v-if="!['trabajador', 'cliente', 'admin', 'superadmin'].includes(role.name)"
+                                        type="button"
+                                        class="rounded-md border border-zinc-300 p-2"
+                                        @click="router.delete(route('access.roles.destroy', role.id), { preserveScroll: true })"
+                                    >
                                         <Trash2 class="h-4 w-4" />
                                     </button>
                                 </div>
@@ -97,7 +125,11 @@ const isProtectedRole = (role: RoleItem) => !props.canManageProtectedRoles && ['
                                     :key="permission"
                                     type="button"
                                     class="rounded-md border px-3 py-2 text-xs font-black disabled:cursor-not-allowed disabled:opacity-40"
-                                    :class="(roleForms[role.id].permissions as string[]).includes(permission) ? 'border-[#a8322b] bg-[#fff1ee] text-[#7f241f]' : 'border-zinc-200 bg-white text-zinc-600'"
+                                    :class="
+                                        (roleForms[role.id].permissions as string[]).includes(permission)
+                                            ? 'border-[#a8322b] bg-[#fff1ee] text-[#7f241f]'
+                                            : 'border-zinc-200 bg-white text-zinc-600'
+                                    "
                                     :disabled="isProtectedRole(role)"
                                     @click="roleForms[role.id].permissions = toggle(roleForms[role.id].permissions as string[], permission)"
                                 >

@@ -33,7 +33,10 @@ const reviewForms = props.appointments.reduce(
             </section>
 
             <section class="mt-6 grid gap-6 xl:grid-cols-[0.7fr_1.3fr]">
-                <form class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5" @submit.prevent="form.post(route('appointments.store'), { preserveScroll: true, onSuccess: () => form.reset() })">
+                <form
+                    class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
+                    @submit.prevent="form.post(route('appointments.store'), { preserveScroll: true, onSuccess: () => form.reset() })"
+                >
                     <div class="flex items-center gap-3">
                         <CalendarDays class="h-6 w-6 text-[#a8322b]" />
                         <h2 class="text-xl font-black">Generar cita</h2>
@@ -54,12 +57,18 @@ const reviewForms = props.appointments.reduce(
                                 <div>
                                     <h3 class="font-black">{{ item.subject }}</h3>
                                     <p class="mt-1 text-sm font-semibold text-zinc-500">{{ item.scheduled_at }}</p>
-                                    <p v-if="canManage && item.user" class="mt-1 text-sm text-zinc-500">{{ item.user.name }} · {{ item.user.email }}</p>
+                                    <p v-if="canManage && item.user" class="mt-1 text-sm text-zinc-500">
+                                        {{ item.user.name }} · {{ item.user.email }}
+                                    </p>
                                     <p class="mt-2 text-sm text-zinc-600">{{ item.notes || 'Sin notas.' }}</p>
                                 </div>
                                 <span class="rounded-md bg-zinc-100 px-3 py-1 text-xs font-black text-zinc-700">{{ item.status }}</span>
                             </div>
-                            <form v-if="canManage" class="mt-4 grid gap-3 sm:grid-cols-[180px_1fr] lg:grid-cols-[180px_1fr_auto]" @submit.prevent="reviewForms[item.id].patch(route('appointments.update', item.id), { preserveScroll: true })">
+                            <form
+                                v-if="canManage"
+                                class="mt-4 grid gap-3 sm:grid-cols-[180px_1fr] lg:grid-cols-[180px_1fr_auto]"
+                                @submit.prevent="reviewForms[item.id].patch(route('appointments.update', item.id), { preserveScroll: true })"
+                            >
                                 <select v-model="reviewForms[item.id].status" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
                                     <option value="pendiente">pendiente</option>
                                     <option value="confirmada">confirmada</option>
@@ -67,7 +76,9 @@ const reviewForms = props.appointments.reduce(
                                     <option value="atendida">atendida</option>
                                 </select>
                                 <input v-model="reviewForms[item.id].notes" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
-                                <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white sm:col-span-2 lg:col-span-1">Actualizar</button>
+                                <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white sm:col-span-2 lg:col-span-1">
+                                    Actualizar
+                                </button>
                             </form>
                         </article>
                     </div>

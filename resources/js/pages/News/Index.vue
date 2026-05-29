@@ -29,11 +29,18 @@ defineProps<{ news: NewsItem[] }>();
 
         <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
             <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                <Link v-for="item in news" :key="item.id" :href="route('news.show', item.slug)" class="overflow-hidden rounded-md border border-zinc-200 bg-white text-zinc-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+                <Link
+                    v-for="item in news"
+                    :key="item.id"
+                    :href="route('news.show', item.slug)"
+                    class="overflow-hidden rounded-md border border-zinc-200 bg-white text-zinc-950 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+                >
                     <img :src="item.image_url || assets.projectImage" :alt="item.title" class="aspect-[4/3] w-full object-cover" />
                     <div class="p-5">
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="rounded-full bg-[#f0c8be] px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-[#7f241f]">{{ item.platform || item.category }}</span>
+                            <span class="rounded-full bg-[#f0c8be] px-2.5 py-1 text-[11px] font-black uppercase tracking-wide text-[#7f241f]">{{
+                                item.platform || item.category
+                            }}</span>
                             <span class="text-xs font-black uppercase tracking-wide text-[#7f241f]">{{ item.published_at || 'Publicado' }}</span>
                         </div>
                         <h2 class="mt-3 text-lg font-black">{{ item.title }}</h2>

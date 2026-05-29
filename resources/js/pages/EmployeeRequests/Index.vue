@@ -50,7 +50,12 @@ const reviewForms = props.requests.reduce(
             </section>
 
             <section class="mt-6 grid gap-6 xl:grid-cols-[0.75fr_1.25fr]">
-                <form class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5" @submit.prevent="createForm.post(route('employee-requests.store'), { preserveScroll: true, onSuccess: () => createForm.reset('details') })">
+                <form
+                    class="rounded-md border border-zinc-200 bg-white p-4 shadow-sm sm:p-5"
+                    @submit.prevent="
+                        createForm.post(route('employee-requests.store'), { preserveScroll: true, onSuccess: () => createForm.reset('details') })
+                    "
+                >
                     <div class="flex items-center gap-3">
                         <FileText class="h-6 w-6 text-[#a8322b]" />
                         <h2 class="text-xl font-black">Nueva solicitud</h2>
@@ -64,9 +69,18 @@ const reviewForms = props.requests.reduce(
                         </label>
                         <label class="grid gap-2 text-sm font-bold">
                             Detalle
-                            <textarea v-model="createForm.details" rows="5" class="rounded-md border border-zinc-300 px-3 py-3 font-normal"></textarea>
+                            <textarea
+                                v-model="createForm.details"
+                                rows="5"
+                                class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                            ></textarea>
                         </label>
-                        <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60" :disabled="createForm.processing">Enviar solicitud</button>
+                        <button
+                            class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+                            :disabled="createForm.processing"
+                        >
+                            Enviar solicitud
+                        </button>
                     </div>
                 </form>
 
@@ -77,13 +91,19 @@ const reviewForms = props.requests.reduce(
                             <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                                 <div>
                                     <h3 class="font-black">{{ requestTypes[item.type] ?? item.type }}</h3>
-                                    <p v-if="canManage && item.user" class="mt-1 text-sm font-semibold text-zinc-500">{{ item.user.name }} · {{ item.user.email }}</p>
+                                    <p v-if="canManage && item.user" class="mt-1 text-sm font-semibold text-zinc-500">
+                                        {{ item.user.name }} · {{ item.user.email }}
+                                    </p>
                                     <p class="mt-2 text-sm leading-6 text-zinc-600">{{ item.details || 'Sin detalle adicional.' }}</p>
                                 </div>
                                 <span class="rounded-md bg-zinc-100 px-3 py-1 text-xs font-black text-zinc-700">{{ item.status }}</span>
                             </div>
 
-                            <form v-if="canManage" class="mt-4 grid gap-3 sm:grid-cols-[180px_1fr] lg:grid-cols-[180px_1fr_auto]" @submit.prevent="reviewForms[item.id].patch(route('employee-requests.update', item.id), { preserveScroll: true })">
+                            <form
+                                v-if="canManage"
+                                class="mt-4 grid gap-3 sm:grid-cols-[180px_1fr] lg:grid-cols-[180px_1fr_auto]"
+                                @submit.prevent="reviewForms[item.id].patch(route('employee-requests.update', item.id), { preserveScroll: true })"
+                            >
                                 <select v-model="reviewForms[item.id].status" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
                                     <option value="pendiente">pendiente</option>
                                     <option value="en_revision">en revision</option>
@@ -91,11 +111,19 @@ const reviewForms = props.requests.reduce(
                                     <option value="rechazado">rechazado</option>
                                     <option value="entregado">entregado</option>
                                 </select>
-                                <input v-model="reviewForms[item.id].admin_response" placeholder="Respuesta administrativa" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" />
-                                <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white sm:col-span-2 lg:col-span-1">Actualizar</button>
+                                <input
+                                    v-model="reviewForms[item.id].admin_response"
+                                    placeholder="Respuesta administrativa"
+                                    class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                />
+                                <button class="rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white sm:col-span-2 lg:col-span-1">
+                                    Actualizar
+                                </button>
                             </form>
 
-                            <p v-else-if="item.admin_response" class="mt-4 rounded-md bg-zinc-100 p-3 text-sm font-semibold text-zinc-700">{{ item.admin_response }}</p>
+                            <p v-else-if="item.admin_response" class="mt-4 rounded-md bg-zinc-100 p-3 text-sm font-semibold text-zinc-700">
+                                {{ item.admin_response }}
+                            </p>
                         </article>
                     </div>
                 </div>

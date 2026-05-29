@@ -25,7 +25,10 @@ const submit = () => {
     <AuthLayout title="Recuperar acceso" description="Ingresa tu correo para volver a entrar al sistema de clientes y operacion.">
         <Head title="Recuperar acceso" />
 
-        <div v-if="status" class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-700 dark:border-emerald-900/30 dark:bg-emerald-950/30 dark:text-emerald-300">
+        <div
+            v-if="status"
+            class="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-700 dark:border-emerald-900/30 dark:bg-emerald-950/30 dark:text-emerald-300"
+        >
             {{ status }}
         </div>
 

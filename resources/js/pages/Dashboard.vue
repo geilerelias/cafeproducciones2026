@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
 import PortalLayoutPicker from '@/components/PortalLayoutPicker.vue';
 import { assets, brand } from '@/data/site';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ClipboardList, FileText, ShieldCheck, Users } from 'lucide-vue-next';
@@ -56,9 +56,7 @@ const iconFor = (label: string) => {
         <main class="min-h-screen overflow-x-hidden bg-zinc-50 p-3 sm:p-4 md:p-6">
             <section class="rounded-md bg-zinc-950 p-5 text-white shadow-xl sm:p-6 md:p-8">
                 <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
-                    <div
-                        class="grid h-20 w-20 shrink-0 place-items-center rounded-xl bg-white shadow-lg ring-1 ring-white/10 sm:h-24 sm:w-24"
-                    >
+                    <div class="grid h-20 w-20 shrink-0 place-items-center rounded-xl bg-white shadow-lg ring-1 ring-white/10 sm:h-24 sm:w-24">
                         <img :src="assets.logoImage" :alt="brand.name" class="h-14 w-14 object-contain sm:h-16 sm:w-16" />
                     </div>
                     <div class="min-w-0">

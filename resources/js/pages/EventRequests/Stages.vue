@@ -56,7 +56,9 @@ const editForms = props.stages.reduce(
             <section class="rounded-md bg-zinc-950 p-5 text-white shadow-xl sm:p-6">
                 <p class="text-sm font-black uppercase tracking-[0.18em] text-[#f0c8be]">Configuracion</p>
                 <h1 class="mt-2 text-2xl font-black sm:text-3xl">Etapas del flujo de eventos</h1>
-                <p class="mt-3 max-w-3xl text-sm text-zinc-300">Renombra, reordena y define etapas visibles para el cliente. La clave interna no cambia para proteger solicitudes existentes.</p>
+                <p class="mt-3 max-w-3xl text-sm text-zinc-300">
+                    Renombra, reordena y define etapas visibles para el cliente. La clave interna no cambia para proteger solicitudes existentes.
+                </p>
             </section>
 
             <section class="mt-6 rounded-md border border-zinc-200 bg-white p-5 shadow-sm">
@@ -66,7 +68,12 @@ const editForms = props.stages.reduce(
                 </div>
                 <form
                     class="mt-5 grid gap-4 md:grid-cols-2"
-                    @submit.prevent="createForm.post(route('event-request-stages.store'), { preserveScroll: true, onSuccess: () => createForm.reset('name', 'description') })"
+                    @submit.prevent="
+                        createForm.post(route('event-request-stages.store'), {
+                            preserveScroll: true,
+                            onSuccess: () => createForm.reset('name', 'description'),
+                        })
+                    "
                 >
                     <label class="grid gap-2 text-sm font-bold md:col-span-2">
                         Nombre visible
@@ -74,7 +81,11 @@ const editForms = props.stages.reduce(
                     </label>
                     <label class="grid gap-2 text-sm font-bold md:col-span-2">
                         Descripcion
-                        <textarea v-model="createForm.description" rows="2" class="rounded-md border border-zinc-300 px-3 py-3 font-normal"></textarea>
+                        <textarea
+                            v-model="createForm.description"
+                            rows="2"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                        ></textarea>
                     </label>
                     <label class="grid gap-2 text-sm font-bold">
                         Color
@@ -82,7 +93,12 @@ const editForms = props.stages.reduce(
                     </label>
                     <label class="grid gap-2 text-sm font-bold">
                         Orden
-                        <input v-model.number="createForm.sort_order" type="number" min="0" class="rounded-md border border-zinc-300 px-3 py-3 font-normal" />
+                        <input
+                            v-model.number="createForm.sort_order"
+                            type="number"
+                            min="0"
+                            class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                        />
                     </label>
                     <label class="flex items-center gap-2 text-sm font-bold">
                         <input v-model="createForm.is_terminal" type="checkbox" class="rounded border-zinc-300" />
@@ -93,7 +109,9 @@ const editForms = props.stages.reduce(
                         Visible al cliente
                     </label>
                     <div class="md:col-span-2">
-                        <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="createForm.processing">Crear etapa</button>
+                        <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="createForm.processing">
+                            Crear etapa
+                        </button>
                     </div>
                 </form>
             </section>
@@ -118,7 +136,11 @@ const editForms = props.stages.reduce(
                         </label>
                         <label class="grid gap-2 text-sm font-bold md:col-span-2">
                             Descripcion
-                            <textarea v-model="editForms[stage.id].description" rows="2" class="rounded-md border border-zinc-300 px-3 py-3 font-normal"></textarea>
+                            <textarea
+                                v-model="editForms[stage.id].description"
+                                rows="2"
+                                class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                            ></textarea>
                         </label>
                         <label class="grid gap-2 text-sm font-bold">
                             Color
@@ -126,7 +148,12 @@ const editForms = props.stages.reduce(
                         </label>
                         <label class="grid gap-2 text-sm font-bold">
                             Orden
-                            <input v-model.number="editForms[stage.id].sort_order" type="number" min="0" class="rounded-md border border-zinc-300 px-3 py-3 font-normal" />
+                            <input
+                                v-model.number="editForms[stage.id].sort_order"
+                                type="number"
+                                min="0"
+                                class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                            />
                         </label>
                         <label class="flex items-center gap-2 text-sm font-bold">
                             <input v-model="editForms[stage.id].is_terminal" type="checkbox" class="rounded border-zinc-300" />
@@ -137,7 +164,9 @@ const editForms = props.stages.reduce(
                             Visible al cliente
                         </label>
                         <div class="flex flex-wrap gap-3 md:col-span-2">
-                            <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="editForms[stage.id].processing">Guardar</button>
+                            <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="editForms[stage.id].processing">
+                                Guardar
+                            </button>
                             <button
                                 v-if="stage.requests_count === 0"
                                 type="button"

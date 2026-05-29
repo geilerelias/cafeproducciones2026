@@ -91,8 +91,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 const visibleStages = computed(() =>
     props.stages.filter(
         (stage) =>
-            props.canManage ||
-            (stage.visible_to_client !== false && (stage.key !== 'rechazada' || props.eventRequest.stage_key === 'rechazada')),
+            props.canManage || (stage.visible_to_client !== false && (stage.key !== 'rechazada' || props.eventRequest.stage_key === 'rechazada')),
     ),
 );
 
@@ -234,11 +233,26 @@ const tasksForColumn = (column: string) => {
                     <article class="rounded-md border border-zinc-200 bg-white p-5 shadow-sm">
                         <h2 class="text-lg font-black">Detalle</h2>
                         <dl class="mt-4 grid gap-3 text-sm">
-                            <div v-if="eventRequest.desired_date"><dt class="font-bold text-zinc-500">Fecha deseada</dt><dd>{{ eventRequest.desired_date }}</dd></div>
-                            <div v-if="eventRequest.location"><dt class="font-bold text-zinc-500">Lugar</dt><dd>{{ eventRequest.location }}</dd></div>
-                            <div v-if="eventRequest.guest_count"><dt class="font-bold text-zinc-500">Asistentes</dt><dd>{{ eventRequest.guest_count }}</dd></div>
-                            <div v-if="eventRequest.description"><dt class="font-bold text-zinc-500">Descripcion</dt><dd class="whitespace-pre-wrap">{{ eventRequest.description }}</dd></div>
-                            <div v-if="eventRequest.budget_notes"><dt class="font-bold text-zinc-500">Presupuesto</dt><dd>{{ eventRequest.budget_notes }}</dd></div>
+                            <div v-if="eventRequest.desired_date">
+                                <dt class="font-bold text-zinc-500">Fecha deseada</dt>
+                                <dd>{{ eventRequest.desired_date }}</dd>
+                            </div>
+                            <div v-if="eventRequest.location">
+                                <dt class="font-bold text-zinc-500">Lugar</dt>
+                                <dd>{{ eventRequest.location }}</dd>
+                            </div>
+                            <div v-if="eventRequest.guest_count">
+                                <dt class="font-bold text-zinc-500">Asistentes</dt>
+                                <dd>{{ eventRequest.guest_count }}</dd>
+                            </div>
+                            <div v-if="eventRequest.description">
+                                <dt class="font-bold text-zinc-500">Descripcion</dt>
+                                <dd class="whitespace-pre-wrap">{{ eventRequest.description }}</dd>
+                            </div>
+                            <div v-if="eventRequest.budget_notes">
+                                <dt class="font-bold text-zinc-500">Presupuesto</dt>
+                                <dd>{{ eventRequest.budget_notes }}</dd>
+                            </div>
                         </dl>
                     </article>
 
@@ -246,7 +260,11 @@ const tasksForColumn = (column: string) => {
                         <h2 class="text-lg font-black">Documentos adjuntos</h2>
                         <p class="mt-1 text-sm text-zinc-500">Brief, cotizaciones y archivos de apoyo.</p>
 
-                        <form v-if="canUploadAttachments" class="mt-4 grid gap-3 rounded-md border border-dashed border-zinc-300 p-4" @submit.prevent="submitAttachment">
+                        <form
+                            v-if="canUploadAttachments"
+                            class="mt-4 grid gap-3 rounded-md border border-dashed border-zinc-300 p-4"
+                            @submit.prevent="submitAttachment"
+                        >
                             <label class="grid gap-2 text-sm font-bold">
                                 Tipo de documento
                                 <select v-model="attachmentForm.label" class="rounded-md border border-zinc-300 px-3 py-2 font-normal">
@@ -255,35 +273,57 @@ const tasksForColumn = (column: string) => {
                             </label>
                             <label class="grid gap-2 text-sm font-bold">
                                 Archivo (max. 10 MB)
-                                <input type="file" class="rounded-md border border-zinc-300 px-3 py-2 font-normal" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.webp,.zip" @change="onAttachmentSelected" />
+                                <input
+                                    type="file"
+                                    class="rounded-md border border-zinc-300 px-3 py-2 font-normal"
+                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.webp,.zip"
+                                    @change="onAttachmentSelected"
+                                />
                             </label>
                             <label v-if="canManage" class="flex items-center gap-2 text-sm font-semibold">
                                 <input v-model="attachmentForm.visible_to_client" type="checkbox" class="rounded border-zinc-300" />
                                 Visible al cliente
                             </label>
-                            <button class="rounded-md bg-zinc-950 px-4 py-2 text-sm font-black text-white" :disabled="attachmentForm.processing || !attachmentForm.file">Subir archivo</button>
+                            <button
+                                class="rounded-md bg-zinc-950 px-4 py-2 text-sm font-black text-white"
+                                :disabled="attachmentForm.processing || !attachmentForm.file"
+                            >
+                                Subir archivo
+                            </button>
                         </form>
 
                         <ul class="mt-4 grid gap-2">
-                            <li v-for="file in eventRequest.attachments ?? []" :key="file.id" class="flex flex-wrap items-center justify-between gap-3 rounded-md border border-zinc-200 px-3 py-3 text-sm">
+                            <li
+                                v-for="file in eventRequest.attachments ?? []"
+                                :key="file.id"
+                                class="flex flex-wrap items-center justify-between gap-3 rounded-md border border-zinc-200 px-3 py-3 text-sm"
+                            >
                                 <div>
                                     <p class="font-black">{{ attachmentLabels[file.label] ?? file.label }}</p>
                                     <p class="text-zinc-600">{{ file.original_name }} · {{ formatBytes(file.size) }}</p>
                                     <p v-if="file.uploader" class="text-xs text-zinc-500">Subido por {{ file.uploader.name }}</p>
                                 </div>
                                 <div class="flex gap-2">
-                                    <a :href="route('event-requests.attachments.download', [eventRequest.id, file.id])" class="rounded-md bg-[#fff1ee] px-3 py-2 text-xs font-black text-[#a8322b]">Descargar</a>
+                                    <a
+                                        :href="route('event-requests.attachments.download', [eventRequest.id, file.id])"
+                                        class="rounded-md bg-[#fff1ee] px-3 py-2 text-xs font-black text-[#a8322b]"
+                                        >Descargar</a
+                                    >
                                     <button
                                         v-if="canManage || canUploadAttachments"
                                         type="button"
                                         class="rounded-md border border-red-200 px-3 py-2 text-xs font-black text-red-700"
-                                        @click="router.delete(route('event-requests.attachments.destroy', [eventRequest.id, file.id]), { preserveScroll: true })"
+                                        @click="
+                                            router.delete(route('event-requests.attachments.destroy', [eventRequest.id, file.id]), {
+                                                preserveScroll: true,
+                                            })
+                                        "
                                     >
                                         Eliminar
                                     </button>
                                 </div>
                             </li>
-                            <li v-if="!(eventRequest.attachments?.length)" class="text-sm text-zinc-500">No hay archivos adjuntos todavia.</li>
+                            <li v-if="!eventRequest.attachments?.length" class="text-sm text-zinc-500">No hay archivos adjuntos todavia.</li>
                         </ul>
                     </article>
 
@@ -312,13 +352,23 @@ const tasksForColumn = (column: string) => {
                             </label>
                             <label class="grid gap-2 text-sm font-bold">
                                 Mensaje visible al cliente
-                                <textarea v-model="adminForm.client_message" rows="3" class="rounded-md border border-zinc-300 px-3 py-3 font-normal"></textarea>
+                                <textarea
+                                    v-model="adminForm.client_message"
+                                    rows="3"
+                                    class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                                ></textarea>
                             </label>
                             <label class="grid gap-2 text-sm font-bold">
                                 Notas internas
-                                <textarea v-model="adminForm.internal_notes" rows="3" class="rounded-md border border-zinc-300 px-3 py-3 font-normal"></textarea>
+                                <textarea
+                                    v-model="adminForm.internal_notes"
+                                    rows="3"
+                                    class="rounded-md border border-zinc-300 px-3 py-3 font-normal"
+                                ></textarea>
                             </label>
-                            <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="adminForm.processing">Guardar cambios</button>
+                            <button class="rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white" :disabled="adminForm.processing">
+                                Guardar cambios
+                            </button>
                         </form>
                         <form
                             class="mt-6 border-t border-zinc-200 pt-6"
@@ -330,12 +380,19 @@ const tasksForColumn = (column: string) => {
                             "
                         >
                             <h3 class="font-black">Publicar actualizacion</h3>
-                            <textarea v-model="commentForm.body" rows="3" class="mt-2 w-full rounded-md border border-zinc-300 px-3 py-3 text-sm" required></textarea>
+                            <textarea
+                                v-model="commentForm.body"
+                                rows="3"
+                                class="mt-2 w-full rounded-md border border-zinc-300 px-3 py-3 text-sm"
+                                required
+                            ></textarea>
                             <label class="mt-2 flex items-center gap-2 text-sm font-semibold">
                                 <input v-model="commentForm.visible_to_client" type="checkbox" class="rounded border-zinc-300" />
                                 Visible para el cliente
                             </label>
-                            <button class="mt-3 rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white" :disabled="commentForm.processing">Publicar</button>
+                            <button class="mt-3 rounded-md bg-[#a8322b] px-4 py-2 text-sm font-black text-white" :disabled="commentForm.processing">
+                                Publicar
+                            </button>
                         </form>
                     </article>
                 </div>
@@ -344,7 +401,9 @@ const tasksForColumn = (column: string) => {
                     <article class="rounded-md border border-zinc-200 bg-white p-5 shadow-sm">
                         <h2 class="text-lg font-black">Tareas y pendientes</h2>
                         <p v-if="!canManage" class="mt-1 text-sm text-zinc-500">
-                            {{ canViewAssigned ? 'Solo ves las tareas asignadas a ti.' : 'Actividades que el equipo tiene en marcha para tu evento.' }}
+                            {{
+                                canViewAssigned ? 'Solo ves las tareas asignadas a ti.' : 'Actividades que el equipo tiene en marcha para tu evento.'
+                            }}
                         </p>
 
                         <form
@@ -357,7 +416,13 @@ const tasksForColumn = (column: string) => {
                                 })
                             "
                         >
-                            <input v-model="taskForm.title" type="text" placeholder="Nueva tarea" class="rounded-md border border-zinc-300 px-3 py-2 text-sm" required />
+                            <input
+                                v-model="taskForm.title"
+                                type="text"
+                                placeholder="Nueva tarea"
+                                class="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+                                required
+                            />
                             <div class="grid gap-3 sm:grid-cols-2">
                                 <select v-model="taskForm.status" class="rounded-md border border-zinc-300 px-3 py-2 text-sm">
                                     <option v-for="(label, value) in taskStatuses" :key="value" :value="value">{{ label }}</option>
@@ -388,7 +453,9 @@ const tasksForColumn = (column: string) => {
                                         class="rounded-md border border-zinc-200 bg-white p-3 text-sm"
                                     >
                                         <p class="font-black">{{ task.title }}</p>
-                                        <p v-if="task.assignee" class="mt-1 text-xs font-semibold text-zinc-500">Asignado: {{ task.assignee.name }}</p>
+                                        <p v-if="task.assignee" class="mt-1 text-xs font-semibold text-zinc-500">
+                                            Asignado: {{ task.assignee.name }}
+                                        </p>
                                         <p v-if="task.due_date" class="mt-1 text-xs text-zinc-500">Vence: {{ task.due_date }}</p>
                                         <select
                                             v-if="canUpdateTasks"
@@ -413,7 +480,7 @@ const tasksForColumn = (column: string) => {
                                 <p class="mt-1 text-sm text-zinc-800">{{ activity.body }}</p>
                                 <p v-if="activity.user" class="mt-1 text-xs text-zinc-500">{{ activity.user.name }}</p>
                             </li>
-                            <li v-if="!(eventRequest.activities?.length)" class="text-sm text-zinc-500">Aun no hay actualizaciones registradas.</li>
+                            <li v-if="!eventRequest.activities?.length" class="text-sm text-zinc-500">Aun no hay actualizaciones registradas.</li>
                         </ol>
                     </article>
                 </div>

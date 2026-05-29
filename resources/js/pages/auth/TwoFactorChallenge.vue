@@ -29,7 +29,10 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Verificacion en dos pasos" description="Confirma tu identidad con el codigo de tu aplicacion de autenticacion o un codigo de recuperacion.">
+    <AuthBase
+        title="Verificacion en dos pasos"
+        description="Confirma tu identidad con el codigo de tu aplicacion de autenticacion o un codigo de recuperacion."
+    >
         <Head title="Verificacion en dos pasos" />
 
         <form @submit.prevent="submit" class="space-y-6">

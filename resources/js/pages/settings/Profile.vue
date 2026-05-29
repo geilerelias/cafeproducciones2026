@@ -102,13 +102,7 @@ const removePhoto = () => {
                                 <Upload class="mr-2 h-4 w-4" />
                                 Subir foto
                             </Button>
-                            <Button
-                                v-if="user.avatar"
-                                type="button"
-                                variant="ghost"
-                                :disabled="photoForm.processing"
-                                @click="removePhoto"
-                            >
+                            <Button v-if="user.avatar" type="button" variant="ghost" :disabled="photoForm.processing" @click="removePhoto">
                                 <Trash2 class="mr-2 h-4 w-4" />
                                 Eliminar
                             </Button>
