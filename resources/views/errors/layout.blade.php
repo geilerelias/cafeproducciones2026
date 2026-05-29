@@ -40,30 +40,32 @@
             padding: 2.5rem 1.25rem;
             text-align: center;
         }
-        .card {
-            width: min(100%, 900px);
-            padding: 2.5rem;
-            border-radius: 32px;
-            border: 1px solid rgba(255,255,255,.08);
-            background: rgba(18, 14, 12, 0.92);
-            box-shadow: 0 38px 90px rgba(0, 0, 0, 0.32);
-            backdrop-filter: blur(20px);
-        }
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: .75rem;
-            margin-bottom: 1.5rem;
-            padding: .85rem 1.25rem;
-            border-radius: 999px;
-            border: 1px solid rgba(255,255,255,.12);
-            background: rgba(255,255,255,.05);
-            color: #f1eadf;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            font-size: .85rem;
-            box-shadow: 0 18px 40px rgba(0,0,0,.16);
-        }
+            :root {
+                color-scheme: dark;
+                font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                color: #f7f1ea;
+                background-color: #0f1620;
+            }
+            * { box-sizing: border-box; }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                background:
+                    radial-gradient(circle at top left, rgba(252, 197, 106, 0.18), transparent 22%),
+                    radial-gradient(circle at bottom right, rgba(65, 188, 255, 0.18), transparent 18%),
+                    linear-gradient(180deg, rgba(10, 26, 50, 0.95), rgba(20, 36, 68, 0.9)),
+                    url('{{ asset('build/assets/eventooim-BsqSqFrX.jpg') }}') center/cover no-repeat;
+                background-attachment: fixed;
+                overflow-x: hidden;
+            }
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 32%),
+                    linear-gradient(180deg, rgba(7, 14, 29, 0.76), rgba(5, 11, 21, 0.88));
+                pointer-events: none;
+            }
         .brand-badge::before {
             content: '';
             width: 0.7rem;
@@ -79,8 +81,8 @@
             filter: drop-shadow(0 25px 45px rgba(0,0,0,.28));
             animation: pulse 6s ease-in-out infinite;
         }
-        .code {
-            font-size: clamp(3.5rem, 6vw, 6rem);
+                background: rgba(12, 23, 44, 0.94);
+                box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
             font-weight: 800;
             letter-spacing: -.05em;
             margin: 0 0 1rem;
@@ -91,8 +93,8 @@
             font-size: clamp(2.25rem, 4vw, 3.75rem);
             line-height: 1.02;
             font-weight: 800;
-            letter-spacing: -.05em;
-        }
+                background: rgba(255,255,255,.08);
+                color: #f7f2e7;
         .subtitle, .message, .meta {
             margin: 1.25rem auto 0;
             max-width: 720px;
@@ -113,18 +115,28 @@
             flex-wrap: wrap;
             margin-top: 2rem;
         }
-        .button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 190px;
-            padding: 1rem 1.75rem;
+            .code {
+                font-size: clamp(4rem, 6vw, 6.5rem);
+                font-weight: 900;
+                letter-spacing: -.08em;
+                margin: 0 0 1rem;
+                color: #ffe18d;
+                text-shadow: 0 0 24px rgba(255, 225, 141, 0.35), 0 0 60px rgba(255, 178, 54, 0.2);
+                animation: glowPulse 1.6s ease-in-out infinite alternate;
+            }
             border-radius: 999px;
             border: none;
             background: linear-gradient(135deg, #c2925a, #a66f38);
             color: #15100d;
             font-weight: 700;
             text-decoration: none;
+                background: linear-gradient(120deg, #f6e0c1 0%, #ffe9b1 28%, #e0c88f 48%, #f2ddae 100%);
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                position: relative;
+                animation: shimmer 4s linear infinite;
+                text-shadow: 0 0 24px rgba(255, 233, 167, 0.2);
             transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
         }
         .button:hover {
@@ -143,6 +155,14 @@
         @keyframes pulse {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
+        }
+        @keyframes glowPulse {
+            from { text-shadow: 0 0 24px rgba(255, 225, 141, 0.35), 0 0 60px rgba(255, 178, 54, 0.2); }
+            to { text-shadow: 0 0 42px rgba(255, 241, 168, 0.65), 0 0 90px rgba(255, 193, 81, 0.35); }
+        }
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
         @media (max-width: 720px) {
             .page { padding: 1.8rem .9rem; }
