@@ -1,25 +1,14 @@
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3';
-import { AlertTriangle, Bot, CheckCircle2, Mail, MapPin, Phone, Send, X } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { useFormFeedback } from '@/composables/useUserFeedback';
 import { brand } from '@/data/site';
 import MarketingLayout from '@/layouts/MarketingLayout.vue';
-
-type AlertState = {
-    open: boolean;
-    type: 'success' | 'error';
-    title: string;
-    message: string;
-};
+import { useForm } from '@inertiajs/vue3';
+import { Bot, Mail, MapPin, Phone, Send } from 'lucide-vue-next';
+import { ref } from 'vue';
 
 const assistantMessage = ref('');
 const assistantLoading = ref(false);
-const alertState = ref<AlertState>({
-    open: false,
-    type: 'success',
-    title: '',
-    message: '',
-});
+const formFeedback = useFormFeedback();
 const contactForm = useForm({
     name: '',
     email: '',
@@ -59,28 +48,15 @@ const askAssistant = async () => {
     assistantLoading.value = false;
 };
 
-const showAlert = (type: AlertState['type'], title: string, message: string) => {
-    alertState.value = {
-        open: true,
-        type,
-        title,
-        message,
-    };
-};
-
-const closeAlert = () => {
-    alertState.value.open = false;
-};
-
 const submitContact = () => {
     contactForm.post(route('contact.store'), {
         preserveScroll: true,
-        onSuccess: () => {
-            contactForm.reset();
-            showAlert('success', 'Mensaje enviado', 'Gracias por contactarnos. Te responderemos pronto desde CAFE Producciones.');
-        },
+        onSuccess: () => contactForm.reset(),
         onError: () => {
-            showAlert('error', 'No se pudo enviar', contactForm.errors.contact || 'Revisa los campos marcados e intenta nuevamente.');
+            formFeedback.showError(
+                'No se pudo enviar',
+                contactForm.errors.contact || 'Revisa los campos marcados e intenta nuevamente.',
+            );
         },
     });
 };
@@ -202,24 +178,5 @@ const submitContact = () => {
                 ></iframe>
             </div>
         </section>
-
-        <Teleport to="body">
-            <div v-if="alertState.open" class="fixed inset-0 z-[100] grid place-items-center bg-zinc-950/60 px-4 backdrop-blur-sm" role="alertdialog" aria-modal="true">
-                <div class="w-full max-w-sm rounded-md bg-white p-6 text-center shadow-[0_24px_80px_rgba(15,23,42,0.35)]">
-                    <button type="button" class="ml-auto grid h-9 w-9 place-items-center rounded-full text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-950" aria-label="Cerrar alerta" @click="closeAlert">
-                        <X class="h-5 w-5" />
-                    </button>
-                    <div class="mx-auto mt-1 grid h-20 w-20 place-items-center rounded-full" :class="alertState.type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'">
-                        <CheckCircle2 v-if="alertState.type === 'success'" class="h-11 w-11" />
-                        <AlertTriangle v-else class="h-11 w-11" />
-                    </div>
-                    <h2 class="mt-5 text-2xl font-black text-zinc-950">{{ alertState.title }}</h2>
-                    <p class="mt-3 text-sm leading-6 text-zinc-600">{{ alertState.message }}</p>
-                    <button type="button" class="mt-6 w-full rounded-md bg-zinc-950 px-5 py-3 text-sm font-black text-white transition hover:bg-zinc-800" @click="closeAlert">
-                        Aceptar
-                    </button>
-                </div>
-            </div>
-        </Teleport>
     </MarketingLayout>
 </template>

@@ -10,11 +10,14 @@ use App\Http\Controllers\CustomFormController;
 use App\Http\Controllers\CompanyEventController;
 use App\Http\Controllers\EmployeeAppointmentController;
 use App\Http\Controllers\EmployeeRequestController;
+use App\Http\Controllers\EventRequestController;
+use App\Http\Controllers\EventRequestStageController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PublicCustomFormController;
 use App\Http\Controllers\ToolController;
 use App\Models\CustomForm;
 use App\Models\EmployeeRequest;
+use App\Models\EventRequest;
 use App\Models\CompanyEvent;
 use App\Models\EmployeeAppointment;
 use App\Models\News;
@@ -218,13 +221,15 @@ Route::get('dashboard', function () {
             ['label' => 'Roles', 'value' => Role::count(), 'href' => '/access/roles', 'permission' => 'roles.manage'],
             ['label' => 'Permisos', 'value' => Permission::count(), 'href' => '/access/permissions', 'permission' => 'permissions.manage'],
             ['label' => 'Encuestas', 'value' => CustomForm::count(), 'href' => '/surveys', 'permission' => 'forms.manage'],
-            ['label' => 'Solicitudes', 'value' => EmployeeRequest::count(), 'href' => '/employee-requests', 'permission' => 'employee.requests.manage'],
+            ['label' => 'Solicitudes RRHH', 'value' => EmployeeRequest::count(), 'href' => '/employee-requests', 'permission' => 'employee.requests.manage'],
+            ['label' => 'Solicitudes eventos', 'value' => EventRequest::count(), 'href' => '/event-requests', 'permission' => 'event.requests.manage'],
             ['label' => 'Citas', 'value' => EmployeeAppointment::count(), 'href' => '/appointments', 'permission' => 'appointments.manage'],
             ['label' => 'Eventos', 'value' => CompanyEvent::count(), 'href' => '/events', 'permission' => 'events.manage'],
             ['label' => 'Noticias', 'value' => News::count(), 'href' => '/admin/news', 'permission' => 'news.manage'],
         ],
         'recentUsers' => User::query()->latest()->limit(5)->get(['id', 'name', 'email', 'created_at']),
         'recentRequests' => EmployeeRequest::query()->with('user:id,name,email')->latest()->limit(5)->get(),
+        'recentEventRequests' => EventRequest::query()->with('client:id,name,email')->latest()->limit(5)->get(['id', 'reference', 'title', 'stage_key', 'client_user_id', 'created_at']),
         'recentForms' => CustomForm::query()->latest()->limit(5)->get(['id', 'title', 'audience', 'is_active', 'created_at']),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -244,6 +249,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('employee-requests', [EmployeeRequestController::class, 'index'])->name('employee-requests.index');
     Route::post('employee-requests', [EmployeeRequestController::class, 'store'])->name('employee-requests.store');
     Route::patch('employee-requests/{employeeRequest}', [EmployeeRequestController::class, 'update'])->name('employee-requests.update');
+
+    Route::get('event-requests', [EventRequestController::class, 'index'])->name('event-requests.index');
+    Route::post('event-requests', [EventRequestController::class, 'store'])->name('event-requests.store');
+    Route::get('event-requests/{eventRequest}', [EventRequestController::class, 'show'])->name('event-requests.show');
+    Route::patch('event-requests/{eventRequest}', [EventRequestController::class, 'update'])->name('event-requests.update');
+    Route::patch('event-requests/{eventRequest}/stage', [EventRequestController::class, 'updateStage'])->name('event-requests.stage.update');
+    Route::post('event-requests/{eventRequest}/tasks', [EventRequestController::class, 'storeTask'])->name('event-requests.tasks.store');
+    Route::patch('event-requests/{eventRequest}/tasks/{task}', [EventRequestController::class, 'updateTask'])->name('event-requests.tasks.update');
+    Route::post('event-requests/{eventRequest}/comments', [EventRequestController::class, 'storeComment'])->name('event-requests.comments.store');
+    Route::post('event-requests/{eventRequest}/attachments', [EventRequestController::class, 'storeAttachment'])->name('event-requests.attachments.store');
+    Route::get('event-requests/{eventRequest}/attachments/{attachment}', [EventRequestController::class, 'downloadAttachment'])->name('event-requests.attachments.download');
+    Route::delete('event-requests/{eventRequest}/attachments/{attachment}', [EventRequestController::class, 'destroyAttachment'])->name('event-requests.attachments.destroy');
+
+    Route::get('admin/event-request-stages', [EventRequestStageController::class, 'index'])->name('event-request-stages.index');
+    Route::post('admin/event-request-stages', [EventRequestStageController::class, 'store'])->name('event-request-stages.store');
+    Route::patch('admin/event-request-stages/{eventRequestStage}', [EventRequestStageController::class, 'update'])->name('event-request-stages.update');
+    Route::delete('admin/event-request-stages/{eventRequestStage}', [EventRequestStageController::class, 'destroy'])->name('event-request-stages.destroy');
 
     Route::get('appointments', [EmployeeAppointmentController::class, 'index'])->name('appointments.index');
     Route::post('appointments', [EmployeeAppointmentController::class, 'store'])->name('appointments.store');

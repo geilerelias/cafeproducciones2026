@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
+import AppHeaderLayout from '@/layouts/app/AppHeaderLayout.vue';
+import AppSidebarLayout from '@/layouts/app/AppSidebarLayout.vue';
+import { usePortalLayout } from '@/composables/usePortalLayout';
 import type { BreadcrumbItemType } from '@/types';
 
 interface Props {
@@ -9,10 +11,15 @@ interface Props {
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
+
+const { portalLayout } = usePortalLayout();
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <AppSidebarLayout v-if="portalLayout === 'sidebar'" :key="'layout-sidebar'" :breadcrumbs="breadcrumbs">
         <slot />
-    </AppLayout>
+    </AppSidebarLayout>
+    <AppHeaderLayout v-else :key="'layout-header'" :breadcrumbs="breadcrumbs">
+        <slot />
+    </AppHeaderLayout>
 </template>

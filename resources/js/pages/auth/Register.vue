@@ -54,7 +54,10 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Solicitar acceso" description="Completa tus datos de contacto. Te enviaremos un correo para confirmar tu cuenta antes de ingresar al portal.">
+    <AuthBase
+        title="Solicitar acceso"
+        description="Completa tus datos de contacto. Te enviaremos un correo para confirmar tu cuenta antes de ingresar al portal."
+    >
         <Head title="Crear cuenta" />
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -77,13 +80,7 @@ const submit = () => {
 
                 <div class="grid gap-2">
                     <Label for="identification_type">Tipo de identificacion</Label>
-                    <select
-                        id="identification_type"
-                        v-model="form.identification_type"
-                        required
-                        tabindex="2"
-                        :class="selectClass"
-                    >
+                    <select id="identification_type" v-model="form.identification_type" required tabindex="2" :class="selectClass">
                         <option v-for="option in props.identificationTypes" :key="option.value" :value="option.value">
                             {{ option.label }}
                         </option>
@@ -104,9 +101,6 @@ const submit = () => {
                         class="h-12 rounded-md bg-white/90 shadow-sm transition focus:ring-2 focus:ring-[#b44136] dark:bg-white/10"
                     />
                     <InputError :message="form.errors.identification_number" />
-                    <p class="text-xs text-muted-foreground">
-                        Aceptamos cedula, PTP, PEP, pasaporte, certificado de Migracion Colombia y otros documentos oficiales.
-                    </p>
                 </div>
 
                 <div class="grid gap-2 sm:col-span-2">
@@ -172,7 +166,7 @@ const submit = () => {
 
                 <Button
                     type="submit"
-                    class="shine-hover mt-1 h-12 w-full rounded-md bg-zinc-950 font-black shadow-[0_14px_35px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:bg-zinc-800 sm:col-span-2 dark:bg-[#a8322b] dark:text-white dark:hover:bg-[#b44136]"
+                    class="shine-hover mt-1 h-12 w-full rounded-md bg-zinc-950 font-black shadow-[0_14px_35px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:bg-zinc-800 dark:bg-[#a8322b] dark:text-white dark:hover:bg-[#b44136] sm:col-span-2"
                     tabindex="8"
                     :disabled="form.processing"
                 >

@@ -7,14 +7,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasRoles, Notifiable;
+    use HasFactory, HasRoles, Notifiable, TwoFactorAuthenticatable;
 
     public const SUPER_ADMIN_EMAIL = 'geilerelias@gmail.com';
 
@@ -36,6 +39,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'cliente' => [
             'contact.ai',
             'dashboard.view',
+            'event.requests.create',
+            'event.requests.view-own',
         ],
         'trabajador' => [
             'dashboard.view',
@@ -44,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'appointments.create',
             'events.view',
             'events.register',
+            'event.requests.tasks.view-assigned',
         ],
         'admin' => [
             'dashboard.view',
@@ -52,6 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'permissions.manage',
             'forms.manage',
             'employee.requests.manage',
+            'event.requests.manage',
             'appointments.manage',
             'events.manage',
             'news.manage',
@@ -80,6 +87,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'effective_role',
         'effective_permissions',
+        'profile_photo_url',
+        'avatar',
+        'two_factor_enabled',
     ];
 
     /**
@@ -90,6 +100,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     /**
@@ -101,6 +113,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
+            'two_factor_confirmed_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -136,6 +149,44 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmailNotification);
+    }
+
+    public function getProfilePhotoUrlAttribute(): ?string
+    {
+        return $this->profile_photo_path
+            ? Storage::disk('public')->url($this->profile_photo_path)
+            : null;
+    }
+
+    public function getAvatarAttribute(): ?string
+    {
+        return $this->profile_photo_url;
+    }
+
+    public function getTwoFactorEnabledAttribute(): bool
+    {
+        return $this->hasEnabledTwoFactorAuthentication();
+    }
+
+    public function updateProfilePhoto(UploadedFile $photo): void
+    {
+        $path = $photo->store('profile-photos', 'public');
+
+        if ($this->profile_photo_path) {
+            Storage::disk('public')->delete($this->profile_photo_path);
+        }
+
+        $this->forceFill(['profile_photo_path' => $path])->save();
+    }
+
+    public function deleteProfilePhoto(): void
+    {
+        if (! $this->profile_photo_path) {
+            return;
+        }
+
+        Storage::disk('public')->delete($this->profile_photo_path);
+        $this->forceFill(['profile_photo_path' => null])->save();
     }
 
     /**

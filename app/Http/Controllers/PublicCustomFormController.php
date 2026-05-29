@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomForm;
+use App\Support\Feedback;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -57,6 +58,6 @@ class PublicCustomFormController extends Controller
             'answers' => $validated['answers'] ?? [],
         ]);
 
-        return back()->with('success', $customForm->success_message);
+        return Feedback::success($customForm->success_message, 'Respuesta enviada');
     }
 }

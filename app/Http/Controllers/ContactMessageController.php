@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMessageMail;
+use App\Support\Feedback;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -37,6 +38,9 @@ class ContactMessageController extends Controller
             ])->withInput();
         }
 
-        return back()->with('success', 'Mensaje enviado correctamente. Te responderemos pronto.');
+        return Feedback::success(
+            'Gracias por contactarnos. Te responderemos pronto desde CAFE Producciones.',
+            'Mensaje enviado',
+        );
     }
 }

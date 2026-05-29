@@ -51,10 +51,6 @@ const submit = () => {
 
         <section class="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
             <form class="rounded-md border border-zinc-200 bg-white p-5 shadow-sm" @submit.prevent="submit">
-                <p v-if="responseForm.recentlySuccessful" class="mb-5 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm font-bold text-green-800">
-                    {{ formDefinition.success_message }}
-                </p>
-
                 <div class="grid gap-4">
                     <label v-for="field in formDefinition.fields" :key="field.key" class="grid gap-2 text-sm font-bold">
                         {{ field.label }}

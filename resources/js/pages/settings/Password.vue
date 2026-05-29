@@ -12,15 +12,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
 
-interface Props {
-    className?: string;
-}
-
-defineProps<Props>();
-
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Password settings',
+        title: 'Contrasena',
         href: '/settings/password',
     },
 ];
@@ -38,19 +32,15 @@ const updatePassword = () => {
     form.put(route('password.update'), {
         preserveScroll: true,
         onSuccess: () => form.reset(),
-        onError: (errors: any) => {
+        onError: (errors: Record<string, string>) => {
             if (errors.password) {
                 form.reset('password', 'password_confirmation');
-                if (passwordInput.value instanceof HTMLInputElement) {
-                    passwordInput.value.focus();
-                }
+                passwordInput.value?.focus();
             }
 
             if (errors.current_password) {
                 form.reset('current_password');
-                if (currentPasswordInput.value instanceof HTMLInputElement) {
-                    currentPasswordInput.value.focus();
-                }
+                currentPasswordInput.value?.focus();
             }
         },
     });
@@ -59,56 +49,56 @@ const updatePassword = () => {
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Profile settings" />
+        <Head title="Contrasena" />
 
         <SettingsLayout>
             <div class="space-y-6">
-                <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+                <HeadingSmall
+                    title="Actualizar contrasena"
+                    description="Usa una contrasena larga y unica. Si activas 2FA, tambien necesitaras tu app de autenticacion al iniciar sesion."
+                />
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
                     <div class="grid gap-2">
-                        <Label for="current_password">Current Password</Label>
+                        <Label for="current_password">Contrasena actual</Label>
                         <Input
                             id="current_password"
                             ref="currentPasswordInput"
                             v-model="form.current_password"
                             type="password"
-                            class="mt-1 block w-full"
                             autocomplete="current-password"
-                            placeholder="Current password"
+                            placeholder="Tu contrasena actual"
                         />
                         <InputError :message="form.errors.current_password" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="password">New password</Label>
+                        <Label for="password">Nueva contrasena</Label>
                         <Input
                             id="password"
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-full"
                             autocomplete="new-password"
-                            placeholder="New password"
+                            placeholder="Nueva contrasena"
                         />
                         <InputError :message="form.errors.password" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="password_confirmation">Confirm password</Label>
+                        <Label for="password_confirmation">Confirmar nueva contrasena</Label>
                         <Input
                             id="password_confirmation"
                             v-model="form.password_confirmation"
                             type="password"
-                            class="mt-1 block w-full"
                             autocomplete="new-password"
-                            placeholder="Confirm password"
+                            placeholder="Repite la nueva contrasena"
                         />
                         <InputError :message="form.errors.password_confirmation" />
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Save password</Button>
+                        <Button :disabled="form.processing">Guardar contrasena</Button>
 
                         <TransitionRoot
                             :show="form.recentlySuccessful"
@@ -117,7 +107,7 @@ const updatePassword = () => {
                             leave="transition ease-in-out"
                             leave-to="opacity-0"
                         >
-                            <p class="text-sm text-neutral-600">Saved</p>
+                            <p class="text-sm text-zinc-500">Contrasena actualizada.</p>
                         </TransitionRoot>
                     </div>
                 </form>

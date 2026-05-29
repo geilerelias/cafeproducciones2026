@@ -132,7 +132,7 @@ const portalHighlights = [
                 <p class="text-sm font-black uppercase tracking-[0.2em] text-[#7f241f]">Proceso</p>
                 <h2 class="mt-3 text-3xl font-black sm:text-4xl">Una secuencia simple, sin ruido</h2>
                 <p class="mt-4 text-base leading-8 text-zinc-600">
-                    La pagina avanza en tres capas: entendemos el evento, ejecutamos la produccion y cerramos con medicion.
+                    Tu evento tiene tres momentos: planeamos juntos tu visión, ejecutamos con precisión y medimos el impacto para mejorar.
                 </p>
             </div>
             <div class="grid gap-4 md:grid-cols-3">

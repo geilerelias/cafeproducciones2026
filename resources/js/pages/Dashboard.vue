@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
+import PortalLayoutPicker from '@/components/PortalLayoutPicker.vue';
+import { assets, brand } from '@/data/site';
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ClipboardList, FileText, ShieldCheck, Users } from 'lucide-vue-next';
@@ -34,7 +36,7 @@ defineProps<{
     recentForms: RecentForm[];
 }>();
 
-const breadcrumbs: BreadcrumbItem[] = [{ title: 'Dashboard', href: '/dashboard' }];
+const breadcrumbs: BreadcrumbItem[] = [{ title: 'Panel general', href: '/dashboard' }];
 const page = usePage<SharedData>();
 const permissions = computed(() => page.props.auth.user?.effective_permissions ?? []);
 const can = (permission: string) => permissions.value.includes('*') || permissions.value.includes(permission);
@@ -48,16 +50,34 @@ const iconFor = (label: string) => {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="`Panel general | ${brand.name}`" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <main class="min-h-screen overflow-x-hidden bg-zinc-50 p-3 sm:p-4 md:p-6">
             <section class="rounded-md bg-zinc-950 p-5 text-white shadow-xl sm:p-6 md:p-8">
-                <p class="text-sm font-black uppercase tracking-[0.18em] text-[#f0c8be]">Panel general</p>
-                <h1 class="mt-3 text-2xl font-black sm:text-3xl md:text-4xl">Resumen operativo</h1>
-                <p class="mt-3 max-w-3xl text-sm leading-6 text-zinc-300 md:text-base">
-                    Cada modulo tiene su propia pantalla. Usa este panel solo para ver actividad reciente y entrar rapidamente a la seccion correcta.
-                </p>
+                <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8">
+                    <div
+                        class="grid h-20 w-20 shrink-0 place-items-center rounded-xl bg-white shadow-lg ring-1 ring-white/10 sm:h-24 sm:w-24"
+                    >
+                        <img :src="assets.logoImage" :alt="brand.name" class="h-14 w-14 object-contain sm:h-16 sm:w-16" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-black uppercase tracking-[0.18em] text-[#f0c8be]">Panel general</p>
+                        <h1 class="mt-2 text-2xl font-black uppercase tracking-wide sm:text-3xl md:text-4xl">{{ brand.name }}</h1>
+                        <p class="mt-2 text-base font-semibold text-zinc-200 sm:text-lg">Resumen operativo</p>
+                        <p class="mt-3 max-w-3xl text-sm leading-6 text-zinc-300 md:text-base">
+                            {{ brand.tagline }}. Usa este panel para ver actividad reciente y entrar rapidamente a cada modulo.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-6 rounded-md border border-zinc-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+                <h2 class="text-lg font-black text-zinc-950 dark:text-white">Diseno del portal</h2>
+                <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Cambia entre menu lateral o menu superior segun tu preferencia.</p>
+                <div class="mt-4">
+                    <PortalLayoutPicker compact />
+                </div>
             </section>
 
             <section class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
