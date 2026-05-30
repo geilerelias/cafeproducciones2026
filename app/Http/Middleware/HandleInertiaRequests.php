@@ -54,6 +54,7 @@ class HandleInertiaRequests extends Middleware
                 'success_title' => fn () => $request->session()->get('success_title'),
                 'error' => fn () => $request->session()->get('error'),
                 'error_title' => fn () => $request->session()->get('error_title'),
+                'created_client_id' => fn () => $request->session()->get('created_client_id'),
             ],
         ];
     }

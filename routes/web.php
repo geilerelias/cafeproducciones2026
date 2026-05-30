@@ -252,6 +252,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('access/users', [AccessUserController::class, 'index'])->name('access.users.index');
     Route::post('access/users', [AccessUserController::class, 'store'])->name('access.users.store');
     Route::patch('access/users/{user}', [AccessUserController::class, 'update'])->name('access.users.update');
+    Route::patch('access/users/{user}/suspension', [AccessUserController::class, 'updateSuspension'])->name('access.users.suspension.update');
     Route::get('access/roles', [AccessRoleController::class, 'index'])->name('access.roles.index');
     Route::post('access/roles', [AccessRoleController::class, 'store'])->name('access.roles.store');
     Route::patch('access/roles/{role}', [AccessRoleController::class, 'update'])->name('access.roles.update');
@@ -266,6 +267,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('event-requests', [EventRequestController::class, 'index'])->name('event-requests.index');
     Route::post('event-requests', [EventRequestController::class, 'store'])->name('event-requests.store');
+    Route::post('event-requests/clients', [EventRequestController::class, 'storeClient'])->name('event-requests.clients.store');
     Route::get('event-requests/{eventRequest}', [EventRequestController::class, 'show'])->name('event-requests.show');
     Route::patch('event-requests/{eventRequest}', [EventRequestController::class, 'update'])->name('event-requests.update');
     Route::patch('event-requests/{eventRequest}/stage', [EventRequestController::class, 'updateStage'])->name('event-requests.stage.update');

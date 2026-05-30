@@ -84,6 +84,9 @@ class CompanyEventController extends Controller
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
+        $employee = User::findOrFail($validated['user_id']);
+        abort_unless($employee->hasRole('trabajador'), 403);
+
         EventAssignment::updateOrCreate([
             'company_event_id' => $companyEvent->id,
             'user_id' => $validated['user_id'],

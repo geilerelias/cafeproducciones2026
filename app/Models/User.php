@@ -90,6 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
         'avatar',
         'two_factor_enabled',
+        'is_suspended',
     ];
 
     /**
@@ -113,6 +114,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
+            'suspended_at' => 'datetime',
             'two_factor_confirmed_at' => 'datetime',
             'password' => 'hashed',
         ];
@@ -166,6 +168,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getTwoFactorEnabledAttribute(): bool
     {
         return $this->hasEnabledTwoFactorAuthentication();
+    }
+
+    public function getIsSuspendedAttribute(): bool
+    {
+        return $this->suspended_at !== null;
     }
 
     public function updateProfilePhoto(UploadedFile $photo): void

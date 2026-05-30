@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Laravel\Fortify\Features;
@@ -33,6 +34,14 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $user = Auth::user();
+
+        if ($user?->is_suspended) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'Tu cuenta esta suspendida. Contacta al administrador para recuperar el acceso.',
+            ]);
+        }
 
         if (
             Features::enabled(Features::twoFactorAuthentication())

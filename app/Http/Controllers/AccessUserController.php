@@ -24,7 +24,7 @@ class AccessUserController extends Controller
             'users' => User::query()
                 ->with(['roles:id,name', 'permissions:id,name'])
                 ->latest()
-                ->get(['id', 'name', 'identification_type', 'identification_number', 'phone', 'email', 'created_at'])
+                ->get(['id', 'name', 'identification_type', 'identification_number', 'phone', 'email', 'suspended_at', 'created_at'])
                 ->map(fn (User $user) => [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -33,6 +33,8 @@ class AccessUserController extends Controller
                     'identification_label' => $user->identificationTypeLabel(),
                     'phone' => $user->phone,
                     'email' => $user->email,
+                    'suspended_at' => $user->suspended_at,
+                    'is_suspended' => $user->is_suspended,
                     'role' => $user->effective_role,
                     'roles' => $user->roles->pluck('name')->values(),
                     'permissions' => $user->permissions->pluck('name')->values(),
@@ -49,6 +51,8 @@ class AccessUserController extends Controller
     public function update(Request $request, User $user): RedirectResponse
     {
         $this->authorizeAccess($request);
+        $request->merge(['email' => strtolower((string) $request->input('email'))]);
+
         $actor = $request->user();
 
         abort_if(
@@ -58,6 +62,15 @@ class AccessUserController extends Controller
         );
 
         $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
             'roles' => ['required', 'array', 'min:1'],
             'roles.*' => ['string', Rule::in(Role::query()->pluck('name')->all())],
         ]);
@@ -70,16 +83,49 @@ class AccessUserController extends Controller
 
         if ($user->isSuperAdmin()) {
             $validated['roles'] = ['superadmin'];
+            $validated['email'] = User::SUPER_ADMIN_EMAIL;
         }
+
+        $user->forceFill([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'email_verified_at' => $user->email === $validated['email'] ? $user->email_verified_at : now(),
+        ])->save();
 
         $user->syncRoles($validated['roles']);
 
-        return back()->with('success', 'Roles actualizados.');
+        return back()->with('success', 'Usuario actualizado.');
+    }
+
+    public function updateSuspension(Request $request, User $user): RedirectResponse
+    {
+        $this->authorizeAccess($request);
+        $actor = $request->user();
+
+        abort_if($actor->is($user), 403, 'No puedes suspender tu propia cuenta.');
+        abort_if($user->isSuperAdmin(), 403, 'No se puede suspender el superadmin principal.');
+        abort_if(
+            ! $actor->isSuperAdmin() && $user->hasAnyRole(['admin', 'superadmin']),
+            403,
+            'Solo el superadmin puede suspender administradores o superadmins.',
+        );
+
+        $validated = $request->validate([
+            'suspended' => ['required', 'boolean'],
+        ]);
+
+        $user->forceFill([
+            'suspended_at' => $validated['suspended'] ? now() : null,
+        ])->save();
+
+        return back()->with('success', $validated['suspended'] ? 'Usuario suspendido.' : 'Usuario reactivado.');
     }
 
     public function store(Request $request): RedirectResponse
     {
         $this->authorizeAccess($request);
+        $request->merge(['email' => strtolower((string) $request->input('email'))]);
+
         $actor = $request->user();
 
         $validated = $request->validate([

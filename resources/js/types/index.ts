@@ -33,6 +33,7 @@ export interface SharedData {
         success_title?: string | null;
         error?: string | null;
         error_title?: string | null;
+        created_client_id?: number | null;
     };
     ziggy: {
         location: string;
@@ -59,6 +60,8 @@ export interface User {
     avatar?: string | null;
     profile_photo_url?: string | null;
     two_factor_enabled?: boolean;
+    is_suspended?: boolean;
+    suspended_at?: string | null;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;

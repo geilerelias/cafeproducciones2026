@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, type User } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
-import { Plus, ShieldCheck, Users } from 'lucide-vue-next';
+import { Head, router, useForm } from '@inertiajs/vue3';
+import { Plus, Search, ShieldCheck, UserX, Users } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
 
 type IdentificationOption = {
     value: string;
@@ -20,6 +21,8 @@ const props = defineProps<{
 const selectClass = 'min-w-0 rounded-md border border-zinc-300 px-3 py-3 text-sm';
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Usuarios y roles', href: '/access/users' }];
+const search = ref('');
+const statusFilter = ref<'todos' | 'activos' | 'suspendidos'>('todos');
 
 const createForm = useForm({
     name: '',
@@ -36,6 +39,8 @@ const forms = props.users.reduce(
     (carry, user) => ({
         ...carry,
         [user.id]: useForm({
+            name: user.name,
+            email: user.email,
             roles: user.roles?.length ? user.roles : [user.effective_role ?? user.role ?? 'cliente'],
         }),
     }),
@@ -53,6 +58,10 @@ const saveUser = (user: User) => {
     forms[user.id].patch(route('access.users.update', user.id), { preserveScroll: true });
 };
 
+const toggleSuspension = (user: User) => {
+    router.patch(route('access.users.suspension.update', user.id), { suspended: !user.is_suspended }, { preserveScroll: true });
+};
+
 const isProtectedUser = (user: User) => !props.canManageProtectedUsers && Boolean(user.roles?.some((role) => ['admin', 'superadmin'].includes(role)));
 const isProtectedRole = (role: string) => !props.canManageProtectedUsers && ['admin', 'superadmin'].includes(role);
 
@@ -61,6 +70,32 @@ const toggleCreateRole = (role: string) => {
     const nextRoles = createForm.roles.includes(role) ? createForm.roles.filter((item) => item !== role) : [...createForm.roles, role];
     createForm.roles = nextRoles.length ? nextRoles : ['cliente'];
 };
+
+const filteredUsers = computed(() => {
+    const term = search.value.trim().toLowerCase();
+
+    return props.users.filter((user) => {
+        const matchesStatus =
+            statusFilter.value === 'todos' ||
+            (statusFilter.value === 'activos' && !user.is_suspended) ||
+            (statusFilter.value === 'suspendidos' && user.is_suspended);
+
+        const haystack = [
+            user.name,
+            user.email,
+            user.phone,
+            user.identification_number,
+            user.identification_label,
+            user.effective_role,
+            ...(user.roles ?? []),
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+        return matchesStatus && (!term || haystack.includes(term));
+    });
+});
 </script>
 
 <template>
@@ -141,29 +176,78 @@ const toggleCreateRole = (role: string) => {
 
             <section class="mt-6 overflow-hidden rounded-md border border-zinc-200 bg-white shadow-sm">
                 <div class="border-b border-zinc-200 p-5">
-                    <div class="flex items-center gap-3">
-                        <Users class="h-6 w-6 text-[#a8322b]" />
-                        <h2 class="text-xl font-black">Gestion de usuarios</h2>
+                    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                        <div class="flex items-center gap-3">
+                            <Users class="h-6 w-6 text-[#a8322b]" />
+                            <div>
+                                <h2 class="text-xl font-black">Gestion de usuarios</h2>
+                                <p class="mt-1 text-sm font-semibold text-zinc-500">{{ filteredUsers.length }} de {{ users.length }} usuarios</p>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-3 sm:grid-cols-[minmax(0,1fr)_180px] lg:w-[560px]">
+                            <label class="relative block">
+                                <Search class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                                <input
+                                    v-model="search"
+                                    type="search"
+                                    class="w-full min-w-0 rounded-md border border-zinc-300 py-3 pl-10 pr-3 text-sm"
+                                    placeholder="Buscar por nombre, correo, documento o rol"
+                                />
+                            </label>
+                            <select v-model="statusFilter" class="w-full min-w-0 rounded-md border border-zinc-300 px-3 py-3 text-sm font-semibold">
+                                <option value="todos">Todos</option>
+                                <option value="activos">Activos</option>
+                                <option value="suspendidos">Suspendidos</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
                 <div class="divide-y divide-zinc-200">
-                    <article
-                        v-for="user in users"
+                    <form
+                        v-for="user in filteredUsers"
                         :key="user.id"
                         class="grid gap-5 p-5 xl:grid-cols-[0.8fr_1.4fr_auto] xl:items-start"
-                        :class="isProtectedUser(user) ? 'bg-zinc-50' : ''"
+                        :class="user.is_suspended || isProtectedUser(user) ? 'bg-zinc-50' : ''"
+                        @submit.prevent="saveUser(user)"
                     >
                         <div>
-                            <h3 class="font-black text-zinc-950">{{ user.name }}</h3>
+                            <label class="block text-xs font-black uppercase text-zinc-500" :for="`user-${user.id}-name`">Nombre</label>
+                            <input
+                                :id="`user-${user.id}-name`"
+                                v-model="forms[user.id].name"
+                                class="mt-1 w-full min-w-0 rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-950 disabled:bg-zinc-100 disabled:text-zinc-500"
+                                :disabled="isProtectedUser(user)"
+                            />
+                            <p v-if="forms[user.id].errors.name" class="mt-1 text-xs font-bold text-[#a8322b]">{{ forms[user.id].errors.name }}</p>
                             <p v-if="user.identification_number" class="mt-1 text-sm font-semibold text-zinc-600">
                                 {{ user.identification_label ?? user.identification_type }}: {{ user.identification_number }}
                             </p>
                             <p v-if="user.phone" class="mt-1 text-sm text-zinc-500">{{ user.phone }}</p>
-                            <p class="mt-1 text-sm font-semibold text-zinc-500">{{ user.email }}</p>
-                            <p class="mt-2 rounded-md bg-zinc-100 px-3 py-1 text-xs font-black uppercase text-zinc-700">{{ user.effective_role }}</p>
+                            <label class="mt-3 block text-xs font-black uppercase text-zinc-500" :for="`user-${user.id}-email`">Correo</label>
+                            <input
+                                :id="`user-${user.id}-email`"
+                                v-model="forms[user.id].email"
+                                type="email"
+                                class="mt-1 w-full min-w-0 rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-950 disabled:bg-zinc-100 disabled:text-zinc-500"
+                                :disabled="isProtectedUser(user) || user.effective_role === 'superadmin'"
+                            />
+                            <p v-if="forms[user.id].errors.email" class="mt-1 text-xs font-bold text-[#a8322b]">{{ forms[user.id].errors.email }}</p>
+                            <div class="mt-2 flex flex-wrap gap-2">
+                                <p class="rounded-md bg-zinc-100 px-3 py-1 text-xs font-black uppercase text-zinc-700">{{ user.effective_role }}</p>
+                                <p
+                                    class="rounded-md px-3 py-1 text-xs font-black uppercase"
+                                    :class="user.is_suspended ? 'bg-[#fff1ee] text-[#a8322b]' : 'bg-emerald-50 text-emerald-700'"
+                                >
+                                    {{ user.is_suspended ? 'Suspendido' : 'Activo' }}
+                                </p>
+                            </div>
                             <p v-if="isProtectedUser(user)" class="mt-2 text-xs font-bold text-[#a8322b]">
                                 Protegido: solo superadmin puede modificarlo.
+                            </p>
+                            <p v-else-if="user.effective_role === 'superadmin'" class="mt-2 text-xs font-bold text-zinc-500">
+                                El correo del superadmin principal no se cambia desde este panel.
                             </p>
                         </div>
 
@@ -191,14 +275,34 @@ const toggleCreateRole = (role: string) => {
                             </p>
                         </div>
 
-                        <button
-                            class="rounded-md bg-zinc-950 px-4 py-2 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40"
-                            :disabled="forms[user.id].processing || isProtectedUser(user)"
-                            @click="saveUser(user)"
-                        >
-                            Guardar
-                        </button>
-                    </article>
+                        <div class="flex flex-col gap-2 sm:flex-row xl:flex-col">
+                            <button
+                                type="submit"
+                                class="rounded-md bg-zinc-950 px-4 py-2 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40"
+                                :disabled="forms[user.id].processing || isProtectedUser(user)"
+                            >
+                                Guardar
+                            </button>
+                            <button
+                                type="button"
+                                class="inline-flex items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-40"
+                                :class="
+                                    user.is_suspended
+                                        ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                                        : 'border-[#f0c8be] bg-[#fff7f5] text-[#a8322b] hover:bg-[#fff1ee]'
+                                "
+                                :disabled="isProtectedUser(user) || user.effective_role === 'superadmin'"
+                                @click="toggleSuspension(user)"
+                            >
+                                <UserX class="h-4 w-4" />
+                                {{ user.is_suspended ? 'Reactivar' : 'Suspender' }}
+                            </button>
+                        </div>
+                    </form>
+
+                    <p v-if="filteredUsers.length === 0" class="p-8 text-center text-sm font-semibold text-zinc-500">
+                        No hay usuarios que coincidan con la busqueda.
+                    </p>
                 </div>
             </section>
         </main>

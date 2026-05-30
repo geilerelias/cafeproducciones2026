@@ -12,9 +12,13 @@ use App\Notifications\EventRequestStageChangedNotification;
 use App\Support\Feedback;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class EventRequestController extends Controller
@@ -50,6 +54,7 @@ class EventRequestController extends Controller
             'canViewAssigned' => $canViewAssigned && ! $canManage,
             'canCreate' => $canManage || $user->canAccess('event.requests.create'),
             'eventTypes' => self::eventTypes(),
+            'identificationTypes' => User::identificationTypesForSelect(),
             'attachmentLabels' => EventRequestAttachment::LABELS,
             'clients' => $canManage
                 ? User::role('cliente')->orderBy('name')->get(['id', 'name', 'email'])
@@ -103,6 +108,7 @@ class EventRequestController extends Controller
             'canViewAssigned' => $canViewAssigned && ! $canManage && ! $isClient,
             'canUploadAttachments' => $canManage || $isClient,
             'eventTypes' => self::eventTypes(),
+            'identificationTypes' => User::identificationTypesForSelect(),
             'taskStatuses' => self::taskStatuses(),
             'attachmentLabels' => EventRequestAttachment::LABELS,
             'clients' => $canManage
@@ -159,6 +165,36 @@ class EventRequestController extends Controller
             'Tu solicitud fue registrada. Puedes seguir el avance desde este panel.',
             'Solicitud creada',
         );
+    }
+
+    public function storeClient(Request $request): RedirectResponse
+    {
+        abort_unless($request->user()?->canAccess('event.requests.manage'), 403);
+        $request->merge(['email' => strtolower((string) $request->input('email'))]);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            ...User::identificationRules($request),
+            'phone' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')],
+        ], User::identificationMessages());
+
+        $client = User::create([
+            'name' => $validated['name'],
+            'identification_type' => $validated['identification_type'],
+            'identification_number' => $validated['identification_number'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'password' => Hash::make(Str::password(16)),
+            'email_verified_at' => now(),
+        ]);
+
+        Role::findOrCreate('cliente');
+        $client->assignRole('cliente');
+
+        return back()
+            ->with('success', 'Cliente agregado.')
+            ->with('created_client_id', $client->id);
     }
 
     public function update(Request $request, EventRequest $eventRequest): RedirectResponse

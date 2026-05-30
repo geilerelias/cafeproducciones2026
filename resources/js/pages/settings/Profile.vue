@@ -16,7 +16,13 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type BreadcrumbItem, type SharedData, type User } from '@/types';
 
+type IdentificationOption = {
+    value: string;
+    label: string;
+};
+
 interface Props {
+    identificationTypes: IdentificationOption[];
     mustVerifyEmail: boolean;
     status?: string;
 }
@@ -31,6 +37,9 @@ const { getInitials } = useInitials();
 
 const form = useForm({
     name: user.name,
+    identification_type: user.identification_type ?? 'cc',
+    identification_number: user.identification_number ?? '',
+    phone: user.phone ?? '',
     email: user.email,
 });
 
@@ -87,7 +96,7 @@ const removePhoto = () => {
 
         <SettingsLayout>
             <div class="flex flex-col space-y-8">
-                <HeadingSmall title="Informacion del perfil" description="Actualiza tu foto, nombre y correo electronico." />
+                <HeadingSmall title="Informacion del perfil" description="Actualiza tu foto y tus datos personales de contacto." />
 
                 <section class="rounded-md border border-zinc-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
                     <h3 class="text-sm font-black uppercase tracking-wide text-zinc-500">Foto de perfil</h3>
@@ -119,6 +128,41 @@ const removePhoto = () => {
                         <Label for="name">Nombre completo</Label>
                         <Input id="name" v-model="form.name" required autocomplete="name" placeholder="Nombre y apellido" />
                         <InputError :message="form.errors.name" />
+                    </div>
+
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div class="grid gap-2">
+                            <Label for="identification_type">Tipo de identificacion</Label>
+                            <select
+                                id="identification_type"
+                                v-model="form.identification_type"
+                                required
+                                class="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                                <option v-for="option in identificationTypes" :key="option.value" :value="option.value">
+                                    {{ option.label }}
+                                </option>
+                            </select>
+                            <InputError :message="form.errors.identification_type" />
+                        </div>
+
+                        <div class="grid gap-2">
+                            <Label for="identification_number">Numero de identificacion</Label>
+                            <Input
+                                id="identification_number"
+                                v-model="form.identification_number"
+                                required
+                                autocomplete="off"
+                                placeholder="Documento"
+                            />
+                            <InputError :message="form.errors.identification_number" />
+                        </div>
+                    </div>
+
+                    <div class="grid gap-2">
+                        <Label for="phone">Telefono de contacto</Label>
+                        <Input id="phone" v-model="form.phone" type="tel" required autocomplete="tel" placeholder="Telefono o celular" />
+                        <InputError :message="form.errors.phone" />
                     </div>
 
                     <div class="grid gap-2">

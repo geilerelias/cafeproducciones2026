@@ -143,7 +143,7 @@ const toolForms = props.events.reduce(
                             <input
                                 v-model="assignmentForms[event.id].task"
                                 class="min-w-0 rounded-md border border-zinc-300 bg-white px-3 py-3 text-sm"
-                                placeholder="Tarea en el evento"
+                                placeholder="Rol / tarea (logística, técnico, armado, apoyo)"
                             />
                             <input
                                 v-model="assignmentForms[event.id].payment_amount"
@@ -160,6 +160,12 @@ const toolForms = props.events.reduce(
                                 <option value="aprobado">aprobado</option>
                                 <option value="pagado">pagado</option>
                             </select>
+                            <textarea
+                                v-model="assignmentForms[event.id].notes"
+                                rows="1"
+                                class="min-w-0 rounded-md border border-zinc-300 bg-white px-3 py-3 text-sm"
+                                placeholder="Notas del personal / detalles logísticos"
+                            ></textarea>
                             <button class="rounded-md bg-zinc-950 px-4 py-3 text-sm font-black text-white sm:col-span-2 lg:col-span-1">
                                 Asignar
                             </button>
@@ -172,6 +178,10 @@ const toolForms = props.events.reduce(
                             <div class="mb-3 flex items-center gap-2">
                                 <CircleDollarSign class="h-5 w-5 text-[#a8322b]" />
                                 <h3 class="font-black">Empleados, tareas y pagos</h3>
+                            </div>
+                            <div class="space-y-2 text-sm text-zinc-500">
+                                <p>Trabajadores vinculados: {{ event.assignments.length }}</p>
+                                <p>Interesados en trabajar: {{ event.assignments.filter((assignment) => assignment.registered_at).length }}</p>
                             </div>
                             <div class="grid gap-3">
                                 <div v-for="assignment in event.assignments" :key="assignment.id" class="rounded-md bg-zinc-100 p-3">
@@ -187,6 +197,7 @@ const toolForms = props.events.reduce(
                                     <p class="mt-2 text-xs font-bold" :class="assignment.registered_at ? 'text-green-700' : 'text-zinc-500'">
                                         {{ assignment.registered_at ? 'Empleado registrado para participar' : 'Pendiente por registro del empleado' }}
                                     </p>
+                                    <p class="mt-2 text-xs text-zinc-500">{{ assignment.notes || 'Sin notas adicionales.' }}</p>
                                     <form
                                         v-if="canRegister && !assignment.registered_at"
                                         class="mt-3"
