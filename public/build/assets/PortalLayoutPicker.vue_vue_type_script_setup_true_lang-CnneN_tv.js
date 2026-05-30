@@ -1,0 +1,11 @@
+import{c as l,d as p,K as b,g as n,o as s,F as k,r as m,n as o,b as a,u as c,a as x,y as g,t as i,W as y}from"./app-CPqdgqF1.js";/**
+ * @license lucide-vue-next v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const _=l("LayoutPanelLeftIcon",[["rect",{width:"7",height:"18",x:"3",y:"3",rx:"1",key:"2obqm"}],["rect",{width:"7",height:"7",x:"14",y:"3",rx:"1",key:"6d4xhi"}],["rect",{width:"7",height:"7",x:"14",y:"14",rx:"1",key:"nxv5o0"}]]);/**
+ * @license lucide-vue-next v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const f=l("PanelTopIcon",[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}],["path",{d:"M3 9h18",key:"1pudct"}]]),v=["onClick"],w={class:"flex items-start gap-3"},L={class:"min-w-0"},z={class:"block text-sm font-black text-zinc-950 dark:text-white"},P={class:"mt-1 block text-xs leading-5 text-zinc-500 dark:text-zinc-400"},D=p({__name:"PortalLayoutPicker",props:{compact:{type:Boolean,default:!1}},setup(B){const{portalLayout:r,updatePortalLayout:d}=b(),h=[{value:"sidebar",label:"Menu lateral",description:"Barra lateral fija con acceso rapido a todos los modulos.",icon:_},{value:"header",label:"Menu superior",description:"Navegacion en la parte superior, ideal en pantallas anchas.",icon:f}],u=t=>{r.value!==t&&(d(t),y.reload())};return(t,C)=>(s(),n("div",{class:o(["grid gap-3",(t.compact,"sm:grid-cols-2")])},[(s(),n(k,null,m(h,e=>a("button",{key:e.value,type:"button",class:o(["rounded-md border p-4 text-left transition",c(r)===e.value?"border-[#a8322b] bg-[#fff1ee] shadow-sm dark:border-[#b44136] dark:bg-[#b44136]/10":"border-zinc-200 bg-white hover:border-zinc-300 dark:border-white/10 dark:bg-zinc-900 dark:hover:border-white/20"]),onClick:I=>u(e.value)},[a("div",w,[a("span",{class:o(["grid h-10 w-10 shrink-0 place-items-center rounded-md",c(r)===e.value?"bg-[#a8322b] text-white":"bg-zinc-100 text-zinc-600 dark:bg-white/10 dark:text-zinc-300"])},[(s(),x(g(e.icon),{class:"h-5 w-5"}))],2),a("span",L,[a("span",z,i(e.label),1),a("span",P,i(e.description),1)])])],10,v)),64))],2))}});export{D as _};
